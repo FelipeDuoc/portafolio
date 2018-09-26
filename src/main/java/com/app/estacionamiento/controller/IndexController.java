@@ -1,40 +1,29 @@
 package com.app.estacionamiento.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.app.estacionamiento.dao.TestDao;
-import com.app.estacionamiento.domain.Test;
 
 @Controller
 public class IndexController {
 	
-	@Autowired
-	private TestDao testDao;
-	
 	@GetMapping(value="/test")
-	private ModelAndView IndexCon() {
-		
-		
+	private ModelAndView IndexCon(HttpSession sesion) {
 		ModelAndView myv = new ModelAndView();
 		
-		List<Test> lista = testDao.getAllTest();
-		myv.addObject("ListaExample", lista);
+		if(sesion.getId().isEmpty()) {
+			myv.setViewName("iniciosesion");
+		}else {
+			myv.setViewName("inicio");
+		}
 		
-		myv.setViewName("inicio");;
 		return myv;
 	}
 	
 	@GetMapping(value="/search")
-	private ModelAndView search() {
+	private ModelAndView search(HttpSession sesion) {
 		ModelAndView myv = new ModelAndView();
 		
 		myv.setViewName("searchLatLon");;
@@ -42,18 +31,10 @@ public class IndexController {
 	}
 	
 	@GetMapping(value="/index")
-	private ModelAndView indexPage() {
+	private ModelAndView indexPage(HttpSession sesion) {
 		ModelAndView myv = new ModelAndView();
 		
 		myv.setViewName("index");;
-		return myv;
-	}
-	
-	@GetMapping(value="/iniciosesion")
-	private ModelAndView inicioSesionPage() {
-		ModelAndView myv = new ModelAndView();
-		
-		myv.setViewName("iniciosesion");;
 		return myv;
 	}
 	
@@ -62,6 +43,14 @@ public class IndexController {
 		ModelAndView myv = new ModelAndView();
 		
 		myv.setViewName("registro");;
+		return myv;
+	}
+	
+	@GetMapping(value="/nuevoestacionamiento")
+	private ModelAndView nuevoEstacionamientoView() {
+		ModelAndView myv = new ModelAndView();
+		
+		myv.setViewName("nuevoestacionamiento");;
 		return myv;
 	}
 }
