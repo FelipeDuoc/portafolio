@@ -24,7 +24,14 @@
   	
     <h3>My Google Maps Demo</h3>
     <!--The div element for the map -->
-    <div id="map"></div>
+    <hr class="mb-4">
+    <div class="container">
+    	<h1 class="display-4" th:text="'Bienvenido, '+${nombre}"></h1>
+    	<p class="lead">Busca los estacionamientos mas cercanos a tu ubicación :D</p>
+    </div>
+    <br/>
+   	<div id="map"></div>
+    
     <button id="btn">test call Controller</button>
     <script>
     
@@ -47,7 +54,7 @@
             };
 
             infoWindow.setPosition(pos);
-            infoWindow.setContent('Te encuentras aquí ! :o');
+            infoWindow.setContent('Te encuentras aquí !');
             infoWindow.open(map);
             map.setCenter(pos);
           }, function() {
@@ -85,13 +92,36 @@
 		        console.log(value.campo2);
 		        console.log(value.descripcion);
 		        
+		        var contentString = '<div id="content">'+
+	            '<div id="siteNotice">'+
+	            '</div>'+
+	            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+	            '<div id="bodyContent">'+
+	            '<p>'+
+	            value.descripcion+
+	            '</p>'+
+	            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+	            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+	            '(last visited June 22, 2009).</p>'+
+	            '</div>'+
+	            '</div>';
+
+		        var infowindow = new google.maps.InfoWindow({
+		          content: contentString,
+		          maxWidth: 200
+		        });
+		        
 		        var latLng = new google.maps.LatLng(value.campo1, value.campo2); 
-		        // Creating a marker and putting it on the map
+		        
 		        var marker = new google.maps.Marker({
 		            position: latLng,
 		            map: map,
 		            title: value.descripcion,
 		            animation: google.maps.Animation.DROP
+		        });
+		        
+		        marker.addListener('click', function() {
+		            infowindow.open(map, marker);
 		        });
 		        
 		    });

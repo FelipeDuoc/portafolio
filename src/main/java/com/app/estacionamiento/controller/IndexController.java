@@ -1,10 +1,15 @@
 package com.app.estacionamiento.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.app.estacionamiento.domain.Credenciales;
 
 @Controller
 public class IndexController {
@@ -52,5 +57,17 @@ public class IndexController {
 		
 		myv.setViewName("nuevoestacionamiento");;
 		return myv;
+	}
+	
+	@GetMapping(value="/inicio")
+	private String inicioSesionPage(HttpSession sesion, Model model) {
+		if(sesion.getAttribute("rol")!=null) {
+			
+			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			return "inicio";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
 	}
 }
