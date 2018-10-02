@@ -70,4 +70,45 @@ public class IndexController {
 			return "redirect:/iniciosesion";
 		}
 	}
+	
+	@GetMapping(value="/misvehiculos")
+	private String vehiculosview(HttpSession sesion, Model model) {
+		if(sesion.getAttribute("rol")!=null) {
+			
+			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			return "listavehiculos";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
+	@GetMapping(value="/nuevovehiculo")
+	private String vehiculosNewPage(HttpSession sesion, Model model) {
+		if(sesion.getAttribute("rol")!=null) {
+			
+			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			return "nuevovehiculo";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
+	
+	@GetMapping(value="/misestacionamientos")
+	private String vehiculosList(HttpSession sesion, Model model) {
+		if(sesion.getAttribute("rol")!=null) {
+			
+			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			return "listaestacionamientos";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
+	
+	
+	
 }

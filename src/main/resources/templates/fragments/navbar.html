@@ -34,14 +34,18 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Vehículos</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vehículos</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+		          <a class="dropdown-item" href="#" th:href="@{/misvehiculos}">Ver</a>
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="#" th:href="@{/nuevovehiculo}">Nuevo</a>
+		      </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mis Estacionamientos</a>
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estacionamientos</a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-		          <a class="dropdown-item" href="#">Ver</a>
-		          <a class="dropdown-item" href="#">Another action</a>
+		          <a class="dropdown-item" href="#" th:href="@{/misestacionamientos}">Ver</a>
 		          <div class="dropdown-divider"></div>
 		          <a class="dropdown-item" href="#" th:href="@{/nuevoestacionamiento}">Nuevo</a>
 		      </div>
