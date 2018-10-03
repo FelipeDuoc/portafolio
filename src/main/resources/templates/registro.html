@@ -79,6 +79,9 @@
             <div class="mb-3">
               <label for="address">Dirección</label>
               <input type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>
+              <input type="hidden" id="street_number" name="street_number"/>
+              <input type="hidden" id="route" name="route"/>
+              <input type="hidden" id="locality" name ="locality"/>
               <div class="invalid-feedback">
                 * Se requiere llenar el campo Dirección
               </div>
@@ -186,10 +189,8 @@
         'use strict';
 
         window.addEventListener('load', function() {
-          // Fetch all the forms we want to apply custom Bootstrap validation styles to
           var forms = document.getElementsByClassName('needs-validation');
 
-          // Loop over them and prevent submission
           var validation = Array.prototype.filter.call(forms, function(form) {
             form.addEventListener('submit', function(event) {
               if (form.checkValidity() === false) {
@@ -215,16 +216,30 @@
 	}
 	
 	function fillInAddress() {
-	// Get the place details from the autocomplete object.
-	var place = autocomplete.getPlace();
+		var place = autocomplete.getPlace();
+		
+		var lat = place.geometry.location.lat();
+		var lon = place.geometry.location.lng();
+		
+		console.log(lat);
+		console.log(lon);
+		
+		var componentForm = {
+		     street_number: 'short_name',
+		     route: 'long_name',
+		     locality: 'long_name'
+		 };
+		
+		for (var i = 0; i < place.address_components.length; i++) {
+	        var addressType = place.address_components[i].types[0];
+	        if (componentForm[addressType]) {
+	          var val = place.address_components[i][componentForm[addressType]];
+	          $('input[name="'+addressType+'"]').val(val);
+	        }
+	      }
+    }
 	
-	var lat = place.geometry.location.lat();
-	var lon = place.geometry.location.lng();
 	
-	console.log(lat);
-	console.log(lon);
-	
-	}
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&libraries=places&callback=initAutocomplete" async defer></script>
   </body>

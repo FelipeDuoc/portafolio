@@ -43,7 +43,6 @@ public class InicioSesionController {
 			sesion.setAttribute("persona", cr.getIdPersona());
 			
 			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
-//			model.addAttribute("nombre","Felipe");
 			return "inicio";
 		}else {
 			return "redirect:/iniciosesion?error";
