@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Nuevo vehículo</title>
+    <title>Actualiza vehículo</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,14 +25,14 @@
     <div class="container">
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="img/aparcamiento.png" alt="" width="72" height="72">
-        <h2>Nuevo vehículo</h2>
-        <p class="lead">Registra tú vehículo apra que puedas arrendar estacionamientos :D</p>
+        <h2>Actualiza vehículo</h2>
+        <p class="lead">Actualiza la información necesaria de tu vehículo ya registrado</p>
       </div>
 
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
-          <form class="needs-validation" novalidate th:action="@{/nuevovehiculo/crear}" method=post th:object="${vehiculo}">
+          <form class="needs-validation" novalidate th:action="@{/actualizavehiculo/actualiza}" method=post th:object="${vehiculo}">
 			<div class="mb-3">
             <div class="row">
               <div class="col-md-3 mb-3">
@@ -42,13 +42,6 @@
                   (*) La patente es obligatoria
                 </div>
               </div>
-<!--               <div class="form-group col-md-4"> -->
-<!-- 			      <label for="inputState">Estado</label> -->
-<!-- 			      <select id="txtEstado" class="form-control"> -->
-<!-- 			        <option selected value="1">Activo</option> -->
-<!-- 			        <option value="2">Inactivo</option> -->
-<!-- 			      </select> -->
-<!-- 			    </div> -->
               
             </div>
             <div class="mb-3">
@@ -60,9 +53,10 @@
             </div>
             
 			<br/><hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar</button>
+			<input type="hidden" id="txtIdVehiculo" th:field="*{idVehiculo}">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Actualizar</button>
             <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
-            <div th:if="${ok != null}" class="alert alert-success" role="alert">El vehículo ha sido creado!</div>
+            <div th:if="${ok != null}" class="alert alert-success" role="alert">El vehículo ha sido actualizado!</div>
           </form>
         </div>
       </div>
