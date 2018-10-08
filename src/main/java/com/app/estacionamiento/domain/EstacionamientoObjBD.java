@@ -14,17 +14,22 @@ public class EstacionamientoObjBD {
 	private int idEstado;
 	private int idPersona;
 	private int idTarifa;
-	private String valorTarifa;
+	private int valorTarifa;
+	private String nombreDueno;
+	private String descripcionTipoTarifa;
+	
 	
 	public EstacionamientoObjBD() {
 		super();
 	}
 	
+
 	
 
 	public EstacionamientoObjBD(int idEstacionamiento, String descripcion, String latitud, String longitud,
 			String nombreCalle, String numeroCalle, int disponibilidad, String observacion, int idComuna,
-			String nombreComuna, int idEstado, int idPersona, int idTarifa, String valorTarifa) {
+			String nombreComuna, int idEstado, int idPersona, int idTarifa, int valorTarifa, String nombreDueno,
+			String descripcionTipoTarifa) {
 		super();
 		this.idEstacionamiento = idEstacionamiento;
 		this.descripcion = descripcion;
@@ -40,7 +45,38 @@ public class EstacionamientoObjBD {
 		this.idPersona = idPersona;
 		this.idTarifa = idTarifa;
 		this.valorTarifa = valorTarifa;
+		this.nombreDueno = nombreDueno;
+		this.descripcionTipoTarifa = descripcionTipoTarifa;
 	}
+
+
+
+
+	public String getNombreDueno() {
+		return nombreDueno;
+	}
+
+
+
+
+	public void setNombreDueno(String nombreDueno) {
+		this.nombreDueno = nombreDueno;
+	}
+
+
+
+
+	public String getDescripcionTipoTarifa() {
+		return descripcionTipoTarifa;
+	}
+
+
+
+
+	public void setDescripcionTipoTarifa(String descripcionTipoTarifa) {
+		this.descripcionTipoTarifa = descripcionTipoTarifa;
+	}
+
 
 
 
@@ -56,13 +92,13 @@ public class EstacionamientoObjBD {
 
 
 
-	public String getValorTarifa() {
+	public int getValorTarifa() {
 		return valorTarifa;
 	}
 
 
 
-	public void setValorTarifa(String valorTarifa) {
+	public void setValorTarifa(int valorTarifa) {
 		this.valorTarifa = valorTarifa;
 	}
 
@@ -164,13 +200,20 @@ public class EstacionamientoObjBD {
 		this.idTarifa = idTarifa;
 	}
 
+
+
+
 	@Override
 	public String toString() {
 		return "EstacionamientoObjBD [idEstacionamiento=" + idEstacionamiento + ", descripcion=" + descripcion
 				+ ", latitud=" + latitud + ", longitud=" + longitud + ", nombreCalle=" + nombreCalle + ", numeroCalle="
 				+ numeroCalle + ", disponibilidad=" + disponibilidad + ", observacion=" + observacion + ", idComuna="
-				+ idComuna + ", idEstado=" + idEstado + ", idPersona=" + idPersona + ", idTarifa=" + idTarifa + "]";
+				+ idComuna + ", nombreComuna=" + nombreComuna + ", idEstado=" + idEstado + ", idPersona=" + idPersona
+				+ ", idTarifa=" + idTarifa + ", valorTarifa=" + valorTarifa + ", nombreDueno=" + nombreDueno
+				+ ", descripcionTipoTarifa=" + descripcionTipoTarifa + "]";
 	}
+
+	
 	
 	
 	

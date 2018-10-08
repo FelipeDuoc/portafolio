@@ -14,4 +14,5 @@ public interface EstacionamientoDao {
 	public List<Estacionamiento> getAllParking(int idPersona);
 	public int createParking(EstacionamientoObjBD estacionamiento, int idPersona);
 	public void setDataSource(DataSource ds);
+	public List<EstacionamientoObjBD> getAllParkinginAvailable(String nombreComuna);
 }

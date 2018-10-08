@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Estacionamiento;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
-import com.app.estacionamiento.domain.Vehiculo;
 
 @Controller
 public class EstacionamientoController {

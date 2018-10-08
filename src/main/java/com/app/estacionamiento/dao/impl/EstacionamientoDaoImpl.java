@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Estacionamiento;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.rowmapper.EstacionamientoObjBDRowMapper;
 import com.app.estacionamiento.rowmapper.EstacionamientoRowMapper;
 
 import oracle.jdbc.OracleTypes;
@@ -88,6 +89,28 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		res = (int) result.get("O_RESULT");
 		
 		return res;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<EstacionamientoObjBD> getAllParkinginAvailable(String nombreComuna) {
+		List<EstacionamientoObjBD> lista = null;
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_EST_DISPONIBLES");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters =  {	new SqlParameter("in_nombre_comuna",OracleTypes.VARCHAR),
+										new SqlOutParameter("o_sql_code", OracleTypes.VARCHAR),
+										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new EstacionamientoObjBDRowMapper()),
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(nombreComuna);
+		lista = (List<EstacionamientoObjBD>) result.get("PCURSOR");
+		
+		return lista;
 	}
 
 }

@@ -79,7 +79,7 @@
 	 	});
 	
     $('#btn').click(function() {
-    	callControllerGet();
+    	callGetParkingAvailable();
     });
 	
 	
@@ -127,6 +127,59 @@
 		    });
 		})
 	}
+	
+	function callGetParkingAvailable(comunaName){
+		$.get( "/estacionamientosDisponibles/get", { nombreComuna: null }, function(){
+			
+		}).done(function(data){
+			$.each(JSON.parse(data), function (i, value) {
+		        
+		        var contentString = '<div id="content">'+
+	            '<div id="siteNotice">'+
+	            '</div>'+
+	            '<h2 id="firstHeading" class="firstHeading">'+value.descripcion+'</h2>'+
+	            '<div id="bodyContent">'+
+	            '<p> Descripcion del estacionamiento: '+
+	            value.observacion+
+	            '</p>'+
+	            '<p> Ubicacion: '+
+	            value.descripcion+
+	            '</p>'+
+	            '<p> Nombre del dueno: '+
+	            value.nombreDueno+
+	            '</p>'+
+	            '<p> Tarifa: $'+
+	            value.valorTarifa+' '+'('+value.descripcionTipoTarifa+')'+
+	            '</p>'+
+	            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+	            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+	            '(last visited June 22, 2009).</p>'+
+	            '</div>'+
+	            '</div>';
+
+		        var infowindow = new google.maps.InfoWindow({
+		          content: contentString,
+		          maxWidth: 200
+		        });
+		        
+		        var latLng = new google.maps.LatLng(value.latitud, value.longitud); 
+		        
+		        var marker = new google.maps.Marker({
+		            position: latLng,
+		            map: map,
+		            title: value.descripcion,
+		            animation: google.maps.Animation.DROP
+		        });
+		        
+		        marker.addListener('click', function() {
+		            infowindow.open(map, marker);
+		        });
+		        
+		    });
+		})
+	}
+	
+	
 	
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&callback=initMap"
