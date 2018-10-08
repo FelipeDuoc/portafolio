@@ -1,0 +1,111 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../../../favicon.ico">
+
+    <title>Arrendar Estacionamiento</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="vendor/bootstrap/css/form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+	<div th:insert="fragments/navbar :: navbar">
+		
+	</div>
+	<br/>
+    <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="img/aparcamiento.png" alt="" width="72" height="72">
+        <h2>Arrendar</h2>
+        <p class="lead">Selecciona la hora en que deseas arrendar el estacionamiento</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Información general</h4>
+          <form class="needs-validation" novalidate action="#" method=post />
+			<div class="mb-3">
+              <label for="address">Dirección</label>
+              <input type="text" class="form-control" id="txtDescripcionEstacionamiento" />
+               <div class="invalid-feedback">
+                * Se requiere llenar el campo Dirección
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cc-name">Tarifa $</label>
+                <input type="text" class="form-control" id="txtTarifa" placeholder="Ej: 30" required>
+                <small class="text-muted">La tarifa es considerada en CLP por minuto</small>
+                <div class="invalid-feedback">
+                  * El campo de tarifa es requerido
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label for="txtDescripcion">Descripción estacionamiento</label>
+              <textarea  type="text" class="form-control" id="txtDescripcion" required></textarea>
+              <div class="invalid-feedback">
+               * Ingresar una descripción
+              </div>
+            </div>
+			
+			<br/><hr class="mb-4">
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Arrendar</button>
+            <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
+            <div th:if="${ok != null}" class="alert alert-success" role="alert">El estacionamiento ha sido creado!</div>
+          </form>
+        </div>
+      </div>
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Estacionamientos</p>
+        <ul class="list-inline">
+          <li class="list-inline-item"><a href="#">Privacy</a></li>
+          <li class="list-inline-item"><a href="#">Terms</a></li>
+          <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="vendor/jquery/jquery-slim.min.js"><\/script>')</script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap/js/holder.min.js"></script>
+<!-- 	<script src="vendor/bootstrap/js/popper.min.js"></script> -->
+    <script>
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&libraries=places&callback=initAutocomplete" async defer></script>
+  </body>
+</html>

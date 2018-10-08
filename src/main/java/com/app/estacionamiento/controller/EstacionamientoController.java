@@ -55,6 +55,8 @@ public class EstacionamientoController {
 		}
 	}
 	
+	
+	
 	@PostMapping(value="/nuevoestacionamiento/crear")
 	private String creaVehiculo(HttpSession sesion, Model model,@ModelAttribute("estacionamiento") EstacionamientoObjBD estacionamiento ) {
 		int idPersona;

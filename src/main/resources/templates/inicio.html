@@ -4,7 +4,7 @@
     <style>
       #map {
         width: 100%;
-        height: 400px;
+        height: 500px;
         background-color: grey;
       }
     </style>
@@ -171,7 +171,7 @@
 		        var contentString = '<div id="content">'+
 	            '<div id="siteNotice">'+
 	            '</div>'+
-	            '<h2 id="firstHeading" class="firstHeading">'+value.descripcion+'</h2>'+
+	            '<h4 id="firstHeading" class="firstHeading">'+value.descripcion+'</h4>'+
 	            '<div id="bodyContent">'+
 	            '<p> Descripcion del estacionamiento: '+
 	            value.observacion+
@@ -179,14 +179,15 @@
 	            '<p> Ubicacion: '+
 	            value.descripcion+
 	            '</p>'+
-	            '<p> Nombre del dueno: '+
+	            '<p> Nombre del dueño: '+
 	            value.nombreDueno+
 	            '</p>'+
 	            '<p> Tarifa: $'+
 	            value.valorTarifa+' '+'('+value.descripcionTipoTarifa+')'+
 	            '</p>'+
-	            '<form  method="post" style="display: inline-block;" action="/arrendar/paso1">'+
-	      		'<input type="hidden" id=idEstacionamiento value='+value.idEstacionamiento+' />'+
+	            '<form  method="post" style="display: inline-block;" action="/arrendar">'+
+	      		'<input type="hidden" name=idEstacionamiento id=idEstacionamiento value='+value.idEstacionamiento+' />'+
+	      		'<input type="hidden" name=valorTarifa id=valorTarifa value='+value.idEstacionamiento+' />'+
 	      		'<button type="submit" class="btn btn-info" >Arrendar</button>'+
 	      		'</form>'+
 	      		'</div>'+
