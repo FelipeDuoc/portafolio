@@ -58,7 +58,7 @@
 			      	</form>
 			      	<form th:id="${list.idVehiculo}" method="post" style="display: inline-block;" th:action="@{/eliminavehiculo/elimina}">
 			      		<input type="hidden" name="idVehiculo" id="idVehiculo" th:value="${list.idVehiculo}" />
-			      		<button th:id="${list.idVehiculo}" onclick="dosomething(this.id)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Borrar</button>
+			      		<button th:id="${list.idVehiculo}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button>
 			      	</form>
 			      </td>
 			    </tr>

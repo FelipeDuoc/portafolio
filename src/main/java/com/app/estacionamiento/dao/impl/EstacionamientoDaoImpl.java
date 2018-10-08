@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Estacionamiento;
-import com.app.estacionamiento.rowmapper.VehiculoRowMapper;
+import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.rowmapper.EstacionamientoRowMapper;
 
 import oracle.jdbc.OracleTypes;
 
@@ -35,7 +36,7 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		
 		SqlParameter[] parameters = {	new SqlParameter("in_id_persona",OracleTypes.INTEGER),
 										new SqlOutParameter("o_sql_code", OracleTypes.VARCHAR),
-										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new VehiculoRowMapper()),
+										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new EstacionamientoRowMapper()),
 									 };
 		
 		procedure.setParameters(parameters);
@@ -49,6 +50,44 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 	@Override
 	public void setDataSource(DataSource ds) {
 		
+	}
+
+	@Override
+	public int createParking(EstacionamientoObjBD estacionamiento, int idPersona) {
+		int res=0;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_INSERT_ESTACIONAMIENTO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_DESCRIPCION",OracleTypes.VARCHAR),
+										new SqlParameter("IN_LATITUD",OracleTypes.VARCHAR),
+										new SqlParameter("IN_LONGITUD",OracleTypes.VARCHAR),
+										new SqlParameter("IN_NOMBRE_CALLE",OracleTypes.VARCHAR),
+										new SqlParameter("IN_NUMERO_CALLE",OracleTypes.VARCHAR),
+										new SqlParameter("IN_OBSERVACION",OracleTypes.VARCHAR),
+										new SqlParameter("IN_COMUNA",OracleTypes.VARCHAR),
+										new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlParameter("IN_VALOR_TARIFA",OracleTypes.INTEGER),
+										
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(estacionamiento.getDescripcion(),
+														estacionamiento.getLatitud(),
+														estacionamiento.getLongitud(),
+														estacionamiento.getNombreCalle(),
+														estacionamiento.getNumeroCalle(),
+														estacionamiento.getObservacion(),
+														estacionamiento.getNombreComuna(),
+														idPersona,
+														estacionamiento.getValorTarifa());
+		res = (int) result.get("O_RESULT");
+		
+		return res;
 	}
 
 }

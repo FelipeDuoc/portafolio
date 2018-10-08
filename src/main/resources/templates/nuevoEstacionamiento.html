@@ -32,34 +32,41 @@
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
-          <form class="needs-validation" novalidate>
+          <form class="needs-validation" novalidate th:action="@{/nuevoestacionamiento/crear}" method=post th:object="${estacionamiento}" >
 			<div class="mb-3">
               <label for="address">Dirección</label>
-              <input type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>
-              <div class="invalid-feedback">
+              <input th:field="*{descripcion}" type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>
+              <input th:field="*{numeroCalle}" type="hidden" id="street_number" name="street_number"/>
+              <input th:field="*{nombreCalle}" type="hidden" id="route" name="route"/>
+              <input th:field="*{nombreComuna}" type="hidden" id="locality" name ="locality"/>
+<!-- 			   <input type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>  -->
+<!--                <input type="hidden" id="street_number" name="street_number"/>  -->
+<!--                <input type="hidden" id="route" name="route"/> -->
+<!--                <input type="hidden" id="locality" name ="locality"/> -->
+               <div class="invalid-feedback">
                 * Se requiere llenar el campo Dirección
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-3 mb-3">
-                <label for="cc-expiration">Numero calle</label>
-                <input type="text" class="form-control" id="txtNumeroCalle" placeholder="123" required>
-                <div class="invalid-feedback">
-                  *El numero de calle es requerido
-                </div>
-              </div>
-              <div class="form-group col-md-4">
-			      <label for="inputState">Comuna</label>
-			      <select id="txtComuna" class="form-control">
-			        <option selected>Choose...</option>
-			        <option>...</option>
-			      </select>
-			    </div>
+<!--             <div class="row"> -->
+<!--               <div class="col-md-3 mb-3"> -->
+<!--                 <label for="cc-expiration">Numero calle</label> -->
+<!--                 <input type="text" class="form-control" id="txtNumeroCalle" placeholder="123" required> -->
+<!--                 <div class="invalid-feedback"> -->
+<!--                   *El numero de calle es requerido -->
+<!--                 </div> -->
+<!--               </div> -->
+<!--               <div class="form-group col-md-4"> -->
+<!-- 			      <label for="inputState">Comuna</label> -->
+<!-- 			      <select id="txtComuna" class="form-control"> -->
+<!-- 			        <option selected>Choose...</option> -->
+<!-- 			        <option>...</option> -->
+<!-- 			      </select> -->
+<!-- 			    </div> -->
               
-            </div>
+<!--             </div> -->
             <div class="mb-4">
               <label for="txtDescripcion">Descripción estacionamiento</label>
-              <textarea type="text" class="form-control" id="txtDescripcion" placeholder="Ej: Lugar de estacionamiento en Condominio, Casa particular, seguro..." required></textarea>
+              <textarea th:field="*{observacion}" type="text" class="form-control" id="txtDescripcion" placeholder="Ej: Lugar de estacionamiento en Condominio, Casa particular, seguro..." required></textarea>
               <div class="invalid-feedback">
                * Ingresar una descripción
               </div>
@@ -68,7 +75,7 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="cc-name">Tarifa $</label>
-                <input type="text" class="form-control" id="cc-name" placeholder="Ej: 30" required>
+                <input th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name" placeholder="Ej: 30" required>
                 <small class="text-muted">La tarifa es considerada en CLP por minuto</small>
                 <div class="invalid-feedback">
                   * El campo de tarifa es requerido
@@ -85,10 +92,13 @@
 			  <input class="form-check-input" type="radio" name="radioEstado" id="inlineRadio2" value="0">
 			  <label class="form-check-label" for="inlineRadio2">Estacionamiento inactivo</label>
 			</div>
+			
 			<br/><hr class="mb-4">
-            <input id="txtLat" name="txtLat" type="hidden" value="">
-            <input id="txtLon" name="txtLon" type="hidden" value="">
+            <input th:field="*{latitud}" id="txtLat" name="txtLat" type="hidden" value="">
+            <input th:field="*{longitud} "id="txtLon" name="txtLon" type="hidden" value="">
             <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar Estacionamiento</button>
+            <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
+            <div th:if="${ok != null}" class="alert alert-success" role="alert">El estacionamiento ha sido creado!</div>
           </form>
         </div>
       </div>
@@ -151,10 +161,23 @@
 	var lon = place.geometry.location.lng();
 	
 	console.log(lat);
-	$('input[name="txtLat"]').val(lat);
+	$('input[id="txtLat"]').val(lat);
 	console.log(lon);
-	$('input[name="txtLon"]').val(lon);
+	$('input[id="txtLon"]').val(lon);
 	
+	var componentForm = {
+	     street_number: 'short_name',
+	     route: 'long_name',
+	     locality: 'long_name'
+	 };
+		
+	for (var i = 0; i < place.address_components.length; i++) {
+        var addressType = place.address_components[i].types[0];
+        if (componentForm[addressType]) {
+          var val = place.address_components[i][componentForm[addressType]];
+          $('input[id="'+addressType+'"]').val(val);
+        }
+     }
 	
 	}
     </script>

@@ -8,24 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Estacionamiento;
+import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.domain.Vehiculo;
 
 @Controller
 public class EstacionamientoController {
 	
 	@Autowired
 	private EstacionamientoDao estacionamientoDao;
-	
-	@GetMapping(value="/nuevoestacionamiento")
-	private ModelAndView nuevoEstacionamientoView() {
-		ModelAndView myv = new ModelAndView();
-		
-		myv.setViewName("nuevoestacionamiento");;
-		return myv;
-	}
 	
 	@GetMapping(value="/misestacionamientos")
 	private String vehiculosList(HttpSession sesion, Model model) {
@@ -37,6 +34,40 @@ public class EstacionamientoController {
 			model.addAttribute("lista",lista);
 			
 			return "listaestacionamientos";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
+	@GetMapping(value="/nuevoestacionamiento")
+	private String nuevoEstacionamiento(HttpSession sesion, 
+										Model model,
+										@RequestParam(name="OK",required=false) String ok,
+										@RequestParam(name="NOK",required=false) String nok) {
+		if(sesion.getAttribute("rol")!=null) {
+			model.addAttribute("ok",ok);
+			model.addAttribute("nok",nok);
+			model.addAttribute("estacionamiento",new EstacionamientoObjBD());
+			
+			return "nuevoestacionamiento";
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
+	@PostMapping(value="/nuevoestacionamiento/crear")
+	private String creaVehiculo(HttpSession sesion, Model model,@ModelAttribute("estacionamiento") EstacionamientoObjBD estacionamiento ) {
+		int idPersona;
+		if(sesion.getAttribute("rol")!=null) {
+			idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			int resultado = estacionamientoDao.createParking(estacionamiento, idPersona);
+			if(resultado==1) {
+				return "redirect:/nuevoestacionamiento?OK";
+			}else {
+				return "redirect:/nuevoestacionamiento?NOK";
+			}
 			
 		}else {
 			return "redirect:/iniciosesion";
