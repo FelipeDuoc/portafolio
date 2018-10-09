@@ -63,5 +63,10 @@ public class IndexController {
 		}
 	}
 	
+	@GetMapping(value="/indexconsultor")
+	private String ConsultorPage(HttpSession sesion, Model model) {
+			return "indexconsultor";
+	}
+	
 	
 }
