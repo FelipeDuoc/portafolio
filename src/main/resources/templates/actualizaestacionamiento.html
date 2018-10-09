@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Nuevo Estacionamiento</title>
+    <title>Actualiza Estacionamiento</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,45 +24,24 @@
     <div class="container">
       <div class="py-5 text-center">
         <img class="d-block mx-auto mb-4" src="img/aparcamiento.png" alt="" width="72" height="72">
-        <h2>Agrega un nuevo estacionamiento</h2>
-        <p class="lead">Llena todos los campos del formulario para que puedas crear un nuevo lugar para arrendar</p>
+        <h2>Actualizar estacionamiento</h2>
+        <p class="lead">Edita la información del estacionamiento seleccionado</p>
       </div>
 
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
-          <form class="needs-validation" novalidate th:action="@{/nuevoestacionamiento/crear}" method=post th:object="${estacionamiento}" >
+          <form class="needs-validation" novalidate th:action="@{/actualizaestacionamiento/actualiza}" method=post th:object="${estacionamiento}" >
 			<div class="mb-3">
               <label for="address">Dirección</label>
               <input th:field="*{descripcion}" type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>
               <input th:field="*{numeroCalle}" type="hidden" id="street_number" name="street_number"/>
               <input th:field="*{nombreCalle}" type="hidden" id="route" name="route"/>
               <input th:field="*{nombreComuna}" type="hidden" id="locality" name ="locality"/>
-<!-- 			   <input type="text" class="form-control" id="txtDireccion" placeholder="calle 123, Puente Alto" required>  -->
-<!--                <input type="hidden" id="street_number" name="street_number"/>  -->
-<!--                <input type="hidden" id="route" name="route"/> -->
-<!--                <input type="hidden" id="locality" name ="locality"/> -->
                <div class="invalid-feedback">
                 * Se requiere llenar el campo Dirección
               </div>
             </div>
-<!--             <div class="row"> -->
-<!--               <div class="col-md-3 mb-3"> -->
-<!--                 <label for="cc-expiration">Numero calle</label> -->
-<!--                 <input type="text" class="form-control" id="txtNumeroCalle" placeholder="123" required> -->
-<!--                 <div class="invalid-feedback"> -->
-<!--                   *El numero de calle es requerido -->
-<!--                 </div> -->
-<!--               </div> -->
-<!--               <div class="form-group col-md-4"> -->
-<!-- 			      <label for="inputState">Comuna</label> -->
-<!-- 			      <select id="txtComuna" class="form-control"> -->
-<!-- 			        <option selected>Choose...</option> -->
-<!-- 			        <option>...</option> -->
-<!-- 			      </select> -->
-<!-- 			    </div> -->
-              
-<!--             </div> -->
             <div class="mb-4">
               <label for="txtDescripcion">Descripción estacionamiento</label>
               <textarea th:field="*{observacion}" type="text" class="form-control" id="txtDescripcion" placeholder="Ej: Lugar de estacionamiento en Condominio, Casa particular, seguro..." required></textarea>
@@ -95,7 +74,7 @@
 			<br/><hr class="mb-4">
             <input th:field="*{latitud}" id="txtLat" name="txtLat" type="hidden" value="">
             <input th:field="*{longitud} "id="txtLon" name="txtLon" type="hidden" value="">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Agregar Estacionamiento</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Actualiza estacionamiento</button>
             <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
             <div th:if="${ok != null}" class="alert alert-success" role="alert">El estacionamiento ha sido creado!</div>
           </form>

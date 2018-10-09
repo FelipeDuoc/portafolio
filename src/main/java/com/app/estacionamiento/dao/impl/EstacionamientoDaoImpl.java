@@ -113,4 +113,64 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		return lista;
 	}
 
+	@Override
+	public EstacionamientoObjBD getParkingById(int idPersona, int idEstacionamiento) {
+		EstacionamientoObjBD est = new EstacionamientoObjBD();
+		String res;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_SELECT_EST_XID");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_ESTACIONAMIENTO",OracleTypes.INTEGER),
+										new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlOutParameter("o_sql_code", OracleTypes.VARCHAR),
+										new SqlOutParameter("O_ID_ESTACIONAMIENTO",OracleTypes.INTEGER),
+										new SqlOutParameter("O_DESCRIPCION",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_LATITUD",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_LONGITUD",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_NOMBRE_CALLE",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_NUMERO_CALLE",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_DISPONIBILIDAD",OracleTypes.INTEGER),
+										new SqlOutParameter("O_OBSERVACION",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_NOMBRE_COMUNA",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_ESTADO",OracleTypes.INTEGER),
+										new SqlOutParameter("O_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlOutParameter("O_NOMBRE_DUENO",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_TARIFA_ID",OracleTypes.INTEGER),
+										new SqlOutParameter("O_VALOR_VARIFA",OracleTypes.INTEGER),
+										new SqlOutParameter("O_DESCRIPCION_TIPO_TARIFA",OracleTypes.VARCHAR),
+										
+										
+									 };
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idEstacionamiento,idPersona);
+		res = (String) result.get("o_sql_code");
+		
+		if(res.equals("1")) {
+			est.setIdEstacionamiento((int) result.get("O_ID_ESTACIONAMIENTO"));
+			est.setDescripcion((String) result.get("O_DESCRIPCION"));
+			est.setLatitud((String) result.get("O_LATITUD"));
+			est.setLongitud((String) result.get("O_LONGITUD"));
+			est.setNombreCalle((String) result.get("O_NOMBRE_CALLE"));
+			est.setNumeroCalle((String) result.get("O_NUMERO_CALLE"));
+			est.setDisponibilidad((int) result.get("O_DISPONIBILIDAD"));
+			est.setObservacion((String) result.get("O_OBSERVACION"));
+			est.setNombreComuna((String) result.get("O_NOMBRE_COMUNA"));
+			est.setIdEstado((int) result.get("O_ESTADO"));
+			est.setIdPersona((int) result.get("O_ID_PERSONA"));
+			est.setNombreDueno((String) result.get("O_NOMBRE_DUENO"));
+			est.setIdTarifa((int) result.get("O_TARIFA_ID"));
+			est.setValorTarifa((int) result.get("O_VALOR_VARIFA"));
+			est.setDescripcionTipoTarifa((String) result.get("O_DESCRIPCION_TIPO_TARIFA"));
+			
+		}else {
+			
+		}
+		
+		return est;
+	}
+
 }
