@@ -27,7 +27,6 @@
         <h2>Actualizar estacionamiento</h2>
         <p class="lead">Edita la información del estacionamiento seleccionado</p>
       </div>
-
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
@@ -63,20 +62,19 @@
 
 
             <div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="radioEstado" id="inlineRadio1" value="1">
+			  <input th:checked="${idEstado==1}" th:field="*{idEstado}" class="form-check-input" type="radio" name="radioEstado" id="inlineRadio1" value="1">
 			  <label class="form-check-label" for="inlineRadio1">Estacionamiento activo</label>
 			</div>
 			<div class="form-check form-check-inline">
-			  <input class="form-check-input" type="radio" name="radioEstado" id="inlineRadio2" value="0">
+			  <input th:checked="${idEstado==0}" th:field="*{idEstado}" class="form-check-input" type="radio" name="radioEstado" id="inlineRadio2" value="0">
 			  <label class="form-check-label" for="inlineRadio2">Estacionamiento inactivo</label>
 			</div>
 			
 			<br/><hr class="mb-4">
             <input th:field="*{latitud}" id="txtLat" name="txtLat" type="hidden" value="">
             <input th:field="*{longitud} "id="txtLon" name="txtLon" type="hidden" value="">
+            <input type="hidden" id="txtIdEstacionamiento" th:field="*{idEstacionamiento}">
             <button class="btn btn-primary btn-lg btn-block" type="submit">Actualiza estacionamiento</button>
-            <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
-            <div th:if="${ok != null}" class="alert alert-success" role="alert">El estacionamiento ha sido creado!</div>
           </form>
         </div>
       </div>

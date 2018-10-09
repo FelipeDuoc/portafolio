@@ -173,4 +173,62 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		return est;
 	}
 
+	@Override
+	public int updateParking(EstacionamientoObjBD estacionamiento) {
+		int res = 0;
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_UPDATE_ESTACIONAMIENTO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_ESTACIONAMIENTO",OracleTypes.INTEGER),
+										new SqlParameter("IN_DESCRIPCION",OracleTypes.VARCHAR),
+										new SqlParameter("IN_LATITUD",OracleTypes.VARCHAR),
+										new SqlParameter("IN_LONGITUD",OracleTypes.VARCHAR),
+										new SqlParameter("IN_NOMBRE_CALLE",OracleTypes.VARCHAR),
+										new SqlParameter("IN_NUMERO_CALLE",OracleTypes.VARCHAR),
+										new SqlParameter("IN_OBSERVACION",OracleTypes.VARCHAR),
+										new SqlParameter("IN_COMUNA",OracleTypes.VARCHAR),
+										new SqlParameter("IN_ESTADO",OracleTypes.INTEGER),
+										new SqlParameter("IN_VALOR_TARIFA",OracleTypes.INTEGER),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(estacionamiento.getIdEstacionamiento(),
+														estacionamiento.getDescripcion(),
+														estacionamiento.getLatitud(),
+														estacionamiento.getLongitud(),
+														estacionamiento.getNombreCalle(),
+														estacionamiento.getNumeroCalle(),
+														estacionamiento.getObservacion(),
+														estacionamiento.getNombreComuna(),
+														estacionamiento.getIdEstado(),
+														estacionamiento.getValorTarifa()
+														);
+		res = (int) result.get("O_RESULT");
+		
+		return res;
+	}
+
+	@Override
+	public int deleteParking(int idEstacionamiento) {
+		int res = 0;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_DELETE_ESTACIONAMIENTO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_ESTACIONAMIENTO",OracleTypes.INTEGER),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idEstacionamiento);
+		res = (int) result.get("O_RESULT");
+		
+		return res;
+	}
+
 }

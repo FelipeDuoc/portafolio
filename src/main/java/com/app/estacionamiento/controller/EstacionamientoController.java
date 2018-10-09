@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Estacionamiento;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.domain.Vehiculo;
 
 @Controller
 public class EstacionamientoController {
@@ -25,12 +26,19 @@ public class EstacionamientoController {
 	private EstacionamientoDao estacionamientoDao;
 	
 	@GetMapping(value="/misestacionamientos")
-	private String vehiculosList(HttpSession sesion, Model model) {
+	private String EstacionamientoList(HttpSession sesion, Model model,
+									@RequestParam(name="dok",required=false) String dok,
+									@RequestParam(name="dnok",required=false) String dnok,
+									@RequestParam(name="uok",required=false) String uok,
+									@RequestParam(name="unok",required=false) String unok) {
 		if(sesion.getAttribute("rol")!=null) {
 			int idPersona;
 			idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			List<Estacionamiento> lista = estacionamientoDao.getAllParking(idPersona);
-			
+			model.addAttribute("dok",dok);
+			model.addAttribute("dnok",dnok);
+			model.addAttribute("uok",uok);
+			model.addAttribute("unok",unok);
 			model.addAttribute("lista",lista);
 			
 			return "listaestacionamientos";
@@ -59,7 +67,7 @@ public class EstacionamientoController {
 	
 	//controlador hibrido
 	@RequestMapping(value="/actualizaestacionamiento", method = { RequestMethod.POST, RequestMethod.GET })
-	private String vehiculosUpdatePage(HttpSession sesion, 
+	private String EstacionamientoUpdatePage(HttpSession sesion, 
 									Model model, 
 									@RequestParam(name="OK",required=false) String ok,
 									@RequestParam(name="NOK",required=false) String nok,
@@ -85,10 +93,27 @@ public class EstacionamientoController {
 		}
 	}
 	
+	@PostMapping(value="/actualizaestacionamiento/actualiza")
+	private String EstacionamientoUpdate(HttpSession sesion, Model model,@ModelAttribute("estacionamiento") EstacionamientoObjBD estacionamiento ) {
+		if(sesion.getAttribute("rol")!=null) {
+			int resultado= estacionamientoDao.updateParking(estacionamiento);
+			if(resultado==1) {
+//				return "redirect:/actualizaestacionamiento?OK&idEstacionamiento="+estacionamiento.getIdEstacionamiento();
+				return "redirect:/misestacionamientos?uok";
+			}else {
+//				return "redirect:/actualizaestacionamiento?NOK&idEstacionamiento="+estacionamiento.getIdEstacionamiento();
+				return "redirect:/misestacionamientos?unok";
+			}
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+	}
+	
 	
 	
 	@PostMapping(value="/nuevoestacionamiento/crear")
-	private String creaVehiculo(HttpSession sesion, Model model,@ModelAttribute("estacionamiento") EstacionamientoObjBD estacionamiento ) {
+	private String creaEstacionamiento(HttpSession sesion, Model model,@ModelAttribute("estacionamiento") EstacionamientoObjBD estacionamiento ) {
 		int idPersona;
 		if(sesion.getAttribute("rol")!=null) {
 			idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
@@ -102,6 +127,24 @@ public class EstacionamientoController {
 		}else {
 			return "redirect:/iniciosesion";
 		}
+	}
+	
+	@PostMapping(value="/eliminaestacionamiento/elimina")
+	private String deleteVehiculo(HttpSession sesion, Model model, int idEstacionamiento){
+		if(sesion.getAttribute("rol")!=null) {
+			int resultado = estacionamientoDao.deleteParking(idEstacionamiento);
+			if(resultado==1) {
+				return "redirect:/misestacionamientos?dok";
+			}else {
+				return "redirect:/misestacionamientos?dnok";
+			}
+			
+		}else {
+			return "redirect:/iniciosesion";
+		}
+		
+		
+		
 	}
 	
 	
