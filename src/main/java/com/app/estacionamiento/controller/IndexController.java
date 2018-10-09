@@ -43,14 +43,6 @@ public class IndexController {
 		return myv;
 	}
 	
-	@GetMapping(value="/registro")
-	private ModelAndView Registro() {
-		ModelAndView myv = new ModelAndView();
-		
-		myv.setViewName("registro");;
-		return myv;
-	}
-	
 	@GetMapping(value="/inicio")
 	private String inicioSesionPage(HttpSession sesion, Model model) {
 		if(sesion.getAttribute("rol")!=null) {

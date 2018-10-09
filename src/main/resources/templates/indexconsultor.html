@@ -27,7 +27,7 @@
     <hr class="mb-4">
     <div class="container">
     	<h3 class="display-4"> Te damos la bienvenida</h3>
-    	<p class="lead">Busca los estacionamientos mas cercanos a tu ubicación. Puedes descubrir todas las funcionalidades registrandote <a href="#" th:href="@{/registro}">Aqui</a></p>
+    	<p class="lead">Busca los estacionamientos mas cercanos a tu ubicación. Puedes descubrir todas las funcionalidades registrandote <a href="#" th:href="@{/registro}">aqui</a></p>
     </div>
     <div class="container">
 	    <div class="form-group col-md-4">
@@ -39,9 +39,6 @@
     </div>
     
    	<div id="map"></div>
-    
-<!--     <button id="btn">test call Controller</button> -->
-<!--     <button id="btn2">delete markers</button> -->
     <script>
     
     var map, infoWindow;
@@ -88,14 +85,6 @@
  		callGetParkingAvailable();
 
  	});
-	
-//     $('#btn').click(function() {
-//     	callGetParkingAvailable('PUENTE ALTO');
-//     });
-    
-//     $('#btn2').click(function() {
-//     	deleteMarkers();
-//     });
     
     function getval(sel)
     {
@@ -103,51 +92,6 @@
         callGetParkingAvailable(sel.value);
         
     }
-	
-// 	function callControllerGet(){
-// 		$.get( "/test/callajax",function(){
-			
-// 		}).done(function(data){
-// 			$.each(JSON.parse(data), function (i, value) {
-// 		        console.log(value.campo1);
-// 		        console.log(value.campo2);
-// 		        console.log(value.descripcion);
-		        
-// 		        var contentString = '<div id="content">'+
-// 	            '<div id="siteNotice">'+
-// 	            '</div>'+
-// 	            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-// 	            '<div id="bodyContent">'+
-// 	            '<p>'+
-// 	            value.descripcion+
-// 	            '</p>'+
-// 	            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-// 	            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-// 	            '(last visited June 22, 2009).</p>'+
-// 	            '</div>'+
-// 	            '</div>';
-
-// 		        var infowindow = new google.maps.InfoWindow({
-// 		          content: contentString,
-// 		          maxWidth: 200
-// 		        });
-		        
-// 		        var latLng = new google.maps.LatLng(value.campo1, value.campo2); 
-		        
-// 		        marker = new google.maps.Marker({
-// 		            position: latLng,
-// 		            map: map,
-// 		            title: value.descripcion,
-// 		            animation: google.maps.Animation.DROP
-// 		        });
-		        
-// 		        marker.addListener('click', function() {
-// 		            infowindow.open(map, marker);
-// 		        });
-		        
-// 		    });
-// 		})
-// 	}
 
 	function deleteMarkers() {
         clearMarkers();
@@ -185,11 +129,6 @@
 	            '<p> Tarifa: $'+
 	            value.valorTarifa+' '+'('+value.descripcionTipoTarifa+')'+
 	            '</p>'+
-	            '<form  method="post" style="display: inline-block;" action="/arrendar">'+
-	      		'<input type="hidden" name=idEstacionamiento id=idEstacionamiento value='+value.idEstacionamiento+' />'+
-	      		'<input type="hidden" name=valorTarifa id=valorTarifa value='+value.idEstacionamiento+' />'+
-	      		'<button type="submit" class="btn btn-info" >Arrendar</button>'+
-	      		'</form>'+
 	      		'</div>'+
 	            '</div>';
 	            
