@@ -24,9 +24,11 @@ public class VehiculoController {
 	private VehiculoDao vehiculoDao;
 	
 	@GetMapping(value="/misvehiculos")
-	private String vehiculosview(HttpSession sesion, Model model, 
+	private String vehiculosview(HttpSession sesion, Model model,
 								@RequestParam(name="dok",required=false) String dok,
-								@RequestParam(name="dnok",required=false) String dnok) {
+								@RequestParam(name="dnok",required=false) String dnok,
+								@RequestParam(name="uok",required=false) String uok,
+								@RequestParam(name="unok",required=false) String unok) {
 		int id_usuario;
 		if(sesion.getAttribute("rol")!=null) {
 			id_usuario =Integer.parseInt((String) sesion.getAttribute("persona"));
@@ -37,6 +39,8 @@ public class VehiculoController {
 			model.addAttribute("lista",lista);
 			model.addAttribute("dok",dok);
 			model.addAttribute("dnok",dnok);
+			model.addAttribute("uok",uok);
+			model.addAttribute("unok",unok);
 			
 			return "listavehiculos";
 			
@@ -110,9 +114,9 @@ public class VehiculoController {
 		if(sesion.getAttribute("rol")!=null) {
 			int resultado = vehiculoDao.updateVehicle(vehiculo);
 			if(resultado==1) {
-				return "redirect:/actualizavehiculo?OK&idVehiculo="+vehiculo.getIdVehiculo();
+				return "redirect:/misvehiculos?uok";
 			}else {
-				return "redirect:/actualizavehiculo?OK&idVehiculo="+vehiculo.getIdVehiculo();
+				return "redirect:/misvehiculos?unok";
 			}
 			
 		}else {
