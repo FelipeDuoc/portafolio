@@ -97,18 +97,17 @@
                 * Se requiere llenar el campo Dirección
               </div>
             </div>
+            <div class="mb-3">
+              <label for="telefono">Telefono</label>
+              <input th:field="*{telefono}" type="text" class="form-control" id="txtDireccion" placeholder="+569 65653421" required>
+              <div class="invalid-feedback">
+                * Se requiere llenar el campo Dirección
+              </div>
+            </div>
             <hr class="mb-4">
 
             <h4 class="mb-3">Información de Pago</h4>
             <div class="row">
-<!--               <div class="col-md-6 mb-3"> -->
-<!--                 <label for="cc-name">Nombre Titular Tarjeta</label> -->
-<!--                 <input  type="text" class="form-control" id="cc-name" placeholder="" required> -->
-<!--                 <small class="text-muted">Nombre completo impreso en tarjeta</small> -->
-<!--                 <div class="invalid-feedback"> -->
-<!--                   El nombre de la tarjeta es requerido -->
-<!--                 </div> -->
-<!--               </div> -->
               <div class="col-md-6 mb-3">
                 <label for="cc-number">Número tarjeta de crédito</label>
                 <input th:field="*{numeroTarjeta}" type="text" class="form-control" id="cc-number" placeholder="" required>
@@ -251,7 +250,7 @@
 	        var addressType = place.address_components[i].types[0];
 	        if (componentForm[addressType]) {
 	          var val = place.address_components[i][componentForm[addressType]];
-	          $('input[name="'+addressType+'"]').val(val);
+	          $('input[id="'+addressType+'"]').val(val);
 	        }
 	     }
     }
