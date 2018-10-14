@@ -32,13 +32,19 @@
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
-          <form class="needs-validation" novalidate action="#" method=post />
+          <form class="needs-validation" novalidate action="#" method=post >
+          	<div class="mb-3">
+			    <label for="exampleFormControlSelect1">Vehículo:</label>
+			    <select  class="form-control" id="vehiculos" name="vehiculos">
+			      <option value="">Selecciona vehiculo</option>
+			    </select>
+			</div>
 			<div class="mb-3">
               <label for="address">Dirección</label>
               <input type="text" class="form-control" id="txtDescripcionEstacionamiento" />
                <div class="invalid-feedback">
                 * Se requiere llenar el campo Dirección
-              </div>
+              </div>                        
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">

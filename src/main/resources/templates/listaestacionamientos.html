@@ -64,7 +64,7 @@
 			      <th scope="col">Tipo de Tarifa</th>
 			      <th scope="col">Opiones</th>
 			    </tr>
-			  <tbody th:if="${lista.size()>0}">
+			  <tbody th:if="${lista.size()>0}" >
 			    <tr th:each="list : ${lista}">
 			      <td th:text="${list.descripcion}"></td>
 			      <td th:text="${list.tarifa}"></td>

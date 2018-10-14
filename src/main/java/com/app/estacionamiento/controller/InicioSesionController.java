@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.app.estacionamiento.dao.SesionDao;
 import com.app.estacionamiento.domain.Credenciales;
@@ -23,10 +22,13 @@ public class InicioSesionController {
 	private SesionDao sesiondao;
 	
 	@GetMapping(value="/iniciosesion")
-	private ModelAndView inicioSesionPage(Model model, @RequestParam(name="error",required=false) String error) {
+	private ModelAndView inicioSesionPage(Model model, 
+										@RequestParam(name="error",required=false) String error,
+										@RequestParam(name="nop",required=false) String nop) {
 		ModelAndView myv = new ModelAndView();
 		model.addAttribute("credenciales", new Credenciales());
 		model.addAttribute("error",error);
+		model.addAttribute("nop",nop);
 		myv.setViewName("iniciosesion");
 		return myv;
 	}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/aparcamiento.png"/>
+
+    <title>Información de pago</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="vendor/bootstrap/css/form-validation.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-light">
+	<div th:insert="fragments/navbar :: navbar">
+		
+	</div>
+	<br/>
+    <div class="container">
+      <div class="py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="img/aparcamiento.png" alt="" width="72" height="72">
+        <h2>Información de pago</h2>
+        <p class="lead">Edita la información de pago</p>
+      </div>
+		<div th:if="${ok!=null}" class="alert alert-success alert-dismissible fade show" role="alert">
+		  <strong>Actualizado! </strong> información actualizada con éxito.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${nok!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Ups!</strong> Ocurrió un error, por favor intenta más tarde,
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+      <div class="row">
+        <div class="col-md-8 order-md-1">
+          <h4 class="mb-3">Información de pago</h4>
+          <form class="needs-validation" method="post" novalidate th:action="@{/micuenta/editatarjeta}" th:object="${Tarjeta}">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cc-number">Número tarjeta de crédito</label>
+                <input th:field="*{numeroTarjeta}" type="text" class="form-control" id="cc-number" placeholder="" required maxlength="16">
+                <div class="invalid-feedback">
+                  El número de la tarjeta es requerido
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label for="cc-expiration">Fecha exp</label>
+                <input th:field="*{fechaExpiracion}" type="text" class="form-control" id="cc-expiration" placeholder="mm/yy" required maxlenght="5">
+                <div class="invalid-feedback">
+                  La fecha de expiración es requerida
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cc-cvv">CVV</label>
+                <input th:field="*{codigoSeguridad}" fecha type="text" class="form-control" id="cc-cvv" placeholder="" maxlength="4" required>
+                <div class="invalid-feedback">
+                  El código de seguridad es requerido
+                </div>
+              </div>
+            </div>
+            <hr class="mb-4">
+            <input id="txtLat" type="hidden" value=""/>
+            <input id="txtLon" type="hidden" value=""/>
+            <input th:field="*{idTarjeta}" type="hidden" id="tarj" value=""/>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Finalizar</button>
+          </form>
+        </div>
+      </div>
+      <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 Estacionamientos</p>
+        <ul class="list-inline">
+        </ul>
+      </footer>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="vendor/jquery/jquery-slim.min.js"><\/script>')</script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendor/bootstrap/js/holder.min.js"></script>
+<!-- 	<script src="vendor/bootstrap/js/popper.min.js"></script> -->
+    <script>
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          var forms = document.getElementsByClassName('needs-validation');
+
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script type="text/javascript">
+	
+	var placeSearch, autocomplete;
+	
+	function initAutocomplete() {
+
+	autocomplete = new google.maps.places.Autocomplete((document.getElementById('txtDireccion')),
+	    {types: ['geocode']});
+	autocomplete.addListener('place_changed', fillInAddress);
+	
+	}
+	
+	function fillInAddress() {
+		var place = autocomplete.getPlace();
+		
+		var lat = place.geometry.location.lat();
+		var lon = place.geometry.location.lng();
+		
+		console.log(lat);
+		console.log(lon);
+		
+		var componentForm = {
+		     street_number: 'short_name',
+		     route: 'long_name',
+		     locality: 'long_name'
+		 };
+		
+		for (var i = 0; i < place.address_components.length; i++) {
+	        var addressType = place.address_components[i].types[0];
+	        if (componentForm[addressType]) {
+	          var val = place.address_components[i][componentForm[addressType]];
+	          $('input[id="'+addressType+'"]').val(val);
+	        }
+	     }
+    }
+	
+	
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&libraries=places&callback=initAutocomplete" async defer></script>
+  </body>
+</html>

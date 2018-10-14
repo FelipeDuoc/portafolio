@@ -28,6 +28,7 @@
       <input type="password" id="txtPass" th:field="*{pass}" class="form-control" placeholder="Password" required/>
       <button class="btn btn-lg btn-primary btn-block" id="btnIniciar" type="submit">Iniciar</button>
       <div  th:if="${error != null}" class="alert alert-danger" role="alert">Usuario o contraseña no válidos</div>
+      <div  th:if="${nop != null}" class="alert alert-warning" role="alert">Debes inicar sesión para ver la información</div>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
   </body>
