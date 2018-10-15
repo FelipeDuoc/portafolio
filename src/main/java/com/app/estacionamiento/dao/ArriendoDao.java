@@ -10,5 +10,6 @@ import com.app.estacionamiento.domain.Arriendo;
 public interface ArriendoDao {
 	public void setDataSource(DataSource ds);
 	public Arriendo newArriendo(Arriendo arriendo);
+	public Arriendo arriendoActivo(Integer idPersona);
 	
 }

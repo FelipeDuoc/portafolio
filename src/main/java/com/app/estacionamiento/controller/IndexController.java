@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.estacionamiento.domain.Credenciales;
@@ -44,10 +45,14 @@ public class IndexController {
 	}
 	
 	@GetMapping(value="/inicio")
-	private String inicioSesionPage(HttpSession sesion, Model model) {
+	private String inicioSesionPage(HttpSession sesion, 
+									Model model,
+									@RequestParam(value="anok", required=false) String anok) {
 		if(sesion.getAttribute("rol")!=null) {
 			
 			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			model.addAttribute("anok", anok);
+			
 			return "inicio";
 			
 		}else {

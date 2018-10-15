@@ -46,7 +46,7 @@ public class ArriendoController {
 		
 	}
 	
-	@PostMapping(value="/arrendar/estacionamiento")
+	@PostMapping(value="/arrendarestacionamiento")
 	public String arrendarEstacionamiento(HttpSession sesion, 
 									      Model model,
 									      @RequestParam(name="cantidadHoras",required=true) String cantidadHoras,
@@ -61,21 +61,30 @@ public class ArriendoController {
 			arr.setIdPersona(Integer.parseInt((String) sesion.getAttribute("persona"))); 
 			
 			Calendar cal = Calendar.getInstance();
-			arr.setFechaDesde(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(cal.getTime()));
+			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			
 			cal.add(Calendar.HOUR,Integer.parseInt(cantidadHoras));
 			cal.add(Calendar.MINUTE,Integer.parseInt(cantidadMinutos));
-			arr.setFechaHasta(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(cal.getTime()));
+			
+			arr.setFechaHasta(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			arr.setIdVehiculo(Integer.parseInt(idVehiculo));
 			arr.setIdEstacionamiento(Integer.parseInt(idEstacionamiento));
 			
 			Arriendo arrRes = arriendoDao.newArriendo(arr);
+			
 			if(arrRes!=null) {
 				model.addAttribute("arriendoOK", arrRes);
-				return "resumenarriendo?ok";
+				model.addAttribute("fechaDesde",arrRes.getFechaDesde());
+				model.addAttribute("fechaHasta",arrRes.getFechaHasta());
+				model.addAttribute("totalArriendo", arrRes.getTotalArriendo());
+				model.addAttribute("vehiculo", arrRes.getPatenteVehiculo());
+				model.addAttribute("nombreDueno", arrRes.getNombreDuenoEstacionamiento());
+				model.addAttribute("telefonoDueno", arrRes.getTelefonoDueno());
+				model.addAttribute("descripcionEstacionamiento", arrRes.getDireccionEstacionamiento());
+				return "resumenarriendo";
 			}else {
-				model.addAttribute("arriendoOK", arrRes);
-				return "resumenarriendo?nok";
+				
+				return "redirect:/inicio?anok";
 			}
 		}else {
 			return "redirect:/iniciosesion?nop";
