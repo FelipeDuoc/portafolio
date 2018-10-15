@@ -32,46 +32,95 @@
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Información general</h4>
-          <form class="needs-validation" novalidate action="#" method=post >
+          <form id="form-arrendar" class="needs-validation" novalidate action="#" method=post th:action="@{/arrendar/estacionamiento}">
           	<div class="mb-3">
 			    <label for="exampleFormControlSelect1">Vehículo:</label>
-			    <select  class="form-control" id="vehiculos" name="vehiculos">
-			      <option value="">Selecciona vehiculo</option>
+			    <select class="form-control" id="idVehiculo" name="idVehiculo" required >
+			    <option value="">Selecciona vehiculo</option>
+			    <option th:each="lista : ${listavehiculos}" th:value="${lista.idVehiculo}" th:text="${lista.patente}">Selecciona vehiculo</option>
+			    </select>
+			    <div class="invalid-feedback">
+                  * Debes seleccionar un vehiculo
+                </div>
+			</div>
+			<div class="col-md-6 mb-3">
+			    <label for="cantidadHoras">Cantidad de horas:</label>
+			    <select class="form-control" id="cantidadHoras" name="cantidadHoras" required>
+			      <option value="0">0</option>
+			      <option value="01">1</option>
+			      <option value="02">2</option>
+			      <option value="03">3</option>
+			      <option value="04">4</option>
+			      <option value="05">5</option>
+			      <option value="06">6</option>
+			      <option value="07">7</option>
+			      <option value="08">8</option>
+			      <option value="09">9</option>
+			      <option value="10">10</option>
+			      <option value="11">11</option>
+			      <option value="12">12</option>
+			      <option value="13">13</option>
+			      <option value="14">14</option>
+			      <option value="15">15</option>
+			      <option value="16">16</option>
+			      <option value="17">17</option>
+			      <option value="18">18</option>
+			      <option value="19">19</option>
+			      <option value="20">20</option>
+			      <option value="21">21</option>
+			      <option value="22">22</option>
+			      <option value="23">23</option>
 			    </select>
 			</div>
-			<div class="mb-3">
-              <label for="address">Dirección</label>
-              <input type="text" class="form-control" id="txtDescripcionEstacionamiento" />
-               <div class="invalid-feedback">
-                * Se requiere llenar el campo Dirección
-              </div>                        
-            </div>
+			<div class="col-md-6 mb-3">
+			    <label for="cantidadMinutos">Cantidad de minutos:</label>
+			    <select  class="form-control" id="cantidadMinutos" name="cantidadMinutos" required>
+			      <option value="00">00</option>
+			      <option value="10">10</option>
+			      <option value="20">20</option>
+			      <option value="30">30</option>
+			      <option value="40">40</option>
+			      <option value="50">50</option>
+			    </select>
+			</div>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="cc-name">Tarifa $</label>
-                <input type="text" class="form-control" id="txtTarifa" placeholder="Ej: 30" required>
+                <input th:value="${valorTarifa}" type="text" class="form-control" id="valorTarifa2" name="valorTarifa2" disabled>
                 <small class="text-muted">La tarifa es considerada en CLP por minuto</small>
                 <div class="invalid-feedback">
                   * El campo de tarifa es requerido
                 </div>
               </div>
             </div>
-            
-            <div class="mb-4">
-              <label for="txtDescripcion">Descripción estacionamiento</label>
-              <textarea  type="text" class="form-control" id="txtDescripcion" required></textarea>
-              <div class="invalid-feedback">
-               * Ingresar una descripción
-              </div>
-            </div>
-			
+			<input type="hidden" th:value="${valorTarifa}" id="valorTarifa" name="valorTarifa"/>
+			<input type="hidden" th:value="${idEstacionamiento}" id="idEstacionamiento" name="idEstacionamiento"/>
 			<br/><hr class="mb-4">
 
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Arrendar</button>
+            <button id="form-arrendar" onclick="dosomething(this.id)" class="btn btn-primary btn-lg btn-block" type="button" data-toggle="modal" data-target="#exampleModal">Arrendar</button>
             <div th:if="${nok != null}" class="alert alert-danger" role="alert">Ha ocurrido un error, favor intenta nuevamente</div>
             <div th:if="${ok != null}" class="alert alert-success" role="alert">El estacionamiento ha sido creado!</div>
           </form>
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+				  <div class="modal-content">
+				    <div class="modal-header">
+				      <h5 class="modal-title" id="exampleModalLabel">Arrendar</h5>
+				      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				        <span aria-hidden="true">&times;</span>
+				      </button>
+				    </div>
+				    <div class="modal-body">
+				      ¿Esta seguro que desea arrendar el estacionamiento?
+				    </div>
+				    <div class="modal-footer">
+				      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+				      <button type="button" onclick="callParking()" class="btn btn-primary" >Aceptar</button>
+				    </div>
+				  </div>
+				</div>
+			</div>
       </div>
       <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2017-2018 Estacionamientos</p>
@@ -111,6 +160,20 @@
           });
         }, false);
       })();
+    </script>
+    <script type="text/javascript">
+    var formsubmit = null;
+
+    function dosomething(value){
+    	formsubmit = value;
+    	console.log("valor del boton: "+value);
+    };
+
+    function callParking(){
+    	console.log("llamando al valor del formulario: "+formsubmit);
+    	$('#exampleModal').modal('hide');
+    	$('#'+formsubmit).submit();
+    };
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&libraries=places&callback=initAutocomplete" async defer></script>
   </body>

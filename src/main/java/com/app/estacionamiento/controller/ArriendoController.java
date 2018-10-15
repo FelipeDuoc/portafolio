@@ -1,20 +1,97 @@
 package com.app.estacionamiento.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.app.estacionamiento.dao.ArriendoDao;
+import com.app.estacionamiento.dao.VehiculoDao;
+import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.domain.Vehiculo;
+
 @Controller
 public class ArriendoController {
+	
+	@Autowired
+	private VehiculoDao vehiculoDao;
+	
+	@Autowired
+	private ArriendoDao arriendoDao;
 	
 	@PostMapping(value="/arrendar")
 	public String formularioArrendar(HttpSession sesion, Model model,
 									@RequestParam(name="idEstacionamiento",required=true) String idEstacionamiento,
 									@RequestParam(name="valorTarifa",required=true) String valorTarifa) {
+		if(sesion.getAttribute("rol")!=null) {
+			int idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			List<Vehiculo> listaVehiculos =  vehiculoDao.getAllVehicles(idPersona);
+			
+			model.addAttribute("valorTarifa", valorTarifa);
+			model.addAttribute("idEstacionamiento", idEstacionamiento);
+			model.addAttribute("listavehiculos", listaVehiculos);
+			
+			return "arrendarEstacionamiento";
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
 		
-		return "arrendarEstacionamiento";
+	}
+	
+	@PostMapping(value="/arrendar/estacionamiento")
+	public String arrendarEstacionamiento(HttpSession sesion, 
+									      Model model,
+									      @RequestParam(name="cantidadHoras",required=true) String cantidadHoras,
+									      @RequestParam(name="cantidadMinutos",required=true) String cantidadMinutos,
+									      @RequestParam(name="valorTarifa",required=true) String valorTarifa,
+									      @RequestParam(name="idVehiculo", required=true) String idVehiculo,
+									      @RequestParam(name="idEstacionamiento", required=true) String idEstacionamiento
+									      ) {
+		if(sesion.getAttribute("rol")!=null) {
+			Arriendo arr = new Arriendo();
+			
+			arr.setIdPersona(Integer.parseInt((String) sesion.getAttribute("persona"))); 
+			
+			Calendar cal = Calendar.getInstance();
+			arr.setFechaDesde(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(cal.getTime()));
+			
+			cal.add(Calendar.HOUR,Integer.parseInt(cantidadHoras));
+			cal.add(Calendar.MINUTE,Integer.parseInt(cantidadMinutos));
+			arr.setFechaHasta(new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(cal.getTime()));
+			arr.setIdVehiculo(Integer.parseInt(idVehiculo));
+			arr.setIdEstacionamiento(Integer.parseInt(idEstacionamiento));
+			
+			Arriendo arrRes = arriendoDao.newArriendo(arr);
+			if(arrRes!=null) {
+				model.addAttribute("arriendoOK", arrRes);
+				return "resumenarriendo?ok";
+			}else {
+				model.addAttribute("arriendoOK", arrRes);
+				return "resumenarriendo?nok";
+			}
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+		
+	}
+	
+	@GetMapping("/resumenarriendo")
+	public String resumenArriend(Model model) {
+		model.addAttribute("fechaDesde","12/02/2018 10:00:00");
+		model.addAttribute("fechaHasta","12/02/2018 12:00:00");
+		model.addAttribute("totalArriendo", "$3.800");
+		model.addAttribute("vehiculo", "HYTG12");
+		model.addAttribute("nombreDueno", "Nombre del dueño");
+		model.addAttribute("telefonoDueno", "+56978574623");
+		model.addAttribute("descripcionEstacionamiento", "Rio Clarillo 578, Puente Alto");
+		return "resumenarriendo";
 	}
 }
