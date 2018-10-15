@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.app.estacionamiento.dao.ArriendoDao;
 import com.app.estacionamiento.dao.SesionDao;
+import com.app.estacionamiento.domain.Arriendo;
 import com.app.estacionamiento.domain.Credenciales;
 import com.app.estacionamiento.domain.CredencialesResp;
 
@@ -20,6 +22,9 @@ public class InicioSesionController {
 	
 	@Autowired
 	private SesionDao sesiondao;
+	
+	@Autowired
+	private ArriendoDao arriendodao;
 	
 	@GetMapping(value="/iniciosesion")
 	private ModelAndView inicioSesionPage(Model model, 
@@ -34,7 +39,10 @@ public class InicioSesionController {
 	}
 	
 	@PostMapping(value="/iniciosesion/inicio")
-	private String inicioSesionPost(Model model, HttpSession sesion, @ModelAttribute("credenciales") Credenciales credenciales) {
+	private String inicioSesionPost(Model model, 
+									HttpSession sesion, 
+									@ModelAttribute("credenciales") Credenciales credenciales,
+									@RequestParam(value="anok",required=false) String anok) {
 		
 		CredencialesResp cr = sesiondao.inicioSesion(credenciales);
 		
@@ -45,7 +53,17 @@ public class InicioSesionController {
 			sesion.setAttribute("persona", cr.getIdPersona());
 			
 			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
-			return "inicio";
+			Integer idPersona = Integer.parseInt(cr.getIdPersona());
+			
+			Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
+			
+			if(arriendo!=null) {
+				model.addAttribute("idArriendo", arriendo.getIdArriendo());
+				return "inicioArriendoActivo";			
+			}else {
+				model.addAttribute("anok", anok);
+				return "inicio";
+			}
 		}else {
 			return "redirect:/iniciosesion?error";
 		}

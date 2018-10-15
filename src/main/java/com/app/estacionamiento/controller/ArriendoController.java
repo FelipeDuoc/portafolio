@@ -103,4 +103,28 @@ public class ArriendoController {
 		model.addAttribute("descripcionEstacionamiento", "Rio Clarillo 578, Puente Alto");
 		return "resumenarriendo";
 	}
+	
+	
+	@PostMapping("/finalizaarriendo")
+	public String FinalizaArriendoPage( HttpSession sesion, 
+										Model model, 
+										@RequestParam(name="idArriendo",required=true) String idArriendo) {
+		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer arriendo = Integer.parseInt(idArriendo);
+			Arriendo finish = arriendoDao.finishArriendo(arriendo);
+			model.addAttribute("idArriendo", idArriendo);
+			if(finish!=null) {
+				model.addAttribute("fechasalida", finish.getFechaRealSalida());
+				model.addAttribute("totalpagoextra", finish.getTotalPagoExtra());
+				model.addAttribute("tiempodiferencia", finish.getTiempoDiferencia());
+				return "finalizaarriendoresumen";
+			}else {
+				return "inicioArriendoActivo"; 
+			}
+			
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+	}
 }

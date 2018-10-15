@@ -11,5 +11,6 @@ public interface ArriendoDao {
 	public void setDataSource(DataSource ds);
 	public Arriendo newArriendo(Arriendo arriendo);
 	public Arriendo arriendoActivo(Integer idPersona);
-	
+	public Arriendo finishArriendo(Integer idArriendo);
+
 }

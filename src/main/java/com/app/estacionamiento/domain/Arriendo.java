@@ -5,6 +5,7 @@ public class Arriendo {
 	private Integer idEstacionamiento;
 	private Integer idPersona;
 	private Integer idVehiculo;
+	
 	private String patenteVehiculo;
 	private String nombreDuenoEstacionamiento;
 	private String telefonoDueno;
@@ -13,16 +14,19 @@ public class Arriendo {
 	private String fechaHasta;
 	private String fechaRealSalida;
 	private Integer totalArriendo;
+	private String valorTarifa;
+	
+	private Integer totalPagoExtra;
+	private String tiempoDiferencia;
 	
 	public Arriendo() {
 		super();
 	}
-	
-	
-	
+
 	public Arriendo(Integer idEstacionamiento, Integer idPersona, Integer idVehiculo, String patenteVehiculo,
 			String nombreDuenoEstacionamiento, String telefonoDueno, String direccionEstacionamiento, String fechaDesde,
-			String fechaHasta, String fechaRealSalida, Integer totalArriendo, Integer idArriendo) {
+			String fechaHasta, String fechaRealSalida, Integer totalArriendo, Integer idArriendo, String valorTarifa,
+			Integer totalPagoExtra, String tiempoDiferencia) {
 		super();
 		this.idEstacionamiento = idEstacionamiento;
 		this.idPersona = idPersona;
@@ -36,70 +40,59 @@ public class Arriendo {
 		this.fechaRealSalida = fechaRealSalida;
 		this.totalArriendo = totalArriendo;
 		this.idArriendo = idArriendo;
+		this.valorTarifa = valorTarifa;
+		this.totalPagoExtra = totalPagoExtra;
+		this.tiempoDiferencia = tiempoDiferencia;
 	}
 
+	public String getValorTarifa() {
+		return valorTarifa;
+	}
 
+	public void setValorTarifa(String valorTarifa) {
+		this.valorTarifa = valorTarifa;
+	}
 
 	public Integer getIdArriendo() {
 		return idArriendo;
 	}
 
-
-
 	public void setIdArriendo(Integer idArriendo) {
 		this.idArriendo = idArriendo;
 	}
-
-
 
 	public Integer getIdEstacionamiento() {
 		return idEstacionamiento;
 	}
 
-
-
 	public void setIdEstacionamiento(Integer idEstacionamiento) {
 		this.idEstacionamiento = idEstacionamiento;
 	}
-
-
 
 	public Integer getIdPersona() {
 		return idPersona;
 	}
 
-
-
 	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
 	}
-
-
 
 	public Integer getIdVehiculo() {
 		return idVehiculo;
 	}
 
-
-
 	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
-
-
 
 	public String getPatenteVehiculo() {
 		return patenteVehiculo;
 	}
 
-
-
 	public void setPatenteVehiculo(String patenteVehiculo) {
 		this.patenteVehiculo = patenteVehiculo;
 	}
-
-
-
+	
 	public String getNombreDuenoEstacionamiento() {
 		return nombreDuenoEstacionamiento;
 	}
@@ -182,7 +175,21 @@ public class Arriendo {
 		this.totalArriendo = totalArriendo;
 	}
 
+	public Integer getTotalPagoExtra() {
+		return totalPagoExtra;
+	}
 
+	public void setTotalPagoExtra(Integer totalPagoExtra) {
+		this.totalPagoExtra = totalPagoExtra;
+	}
+
+	public String getTiempoDiferencia() {
+		return tiempoDiferencia;
+	}
+
+	public void setTiempoDiferencia(String tiempoDiferencia) {
+		this.tiempoDiferencia = tiempoDiferencia;
+	}
 
 	@Override
 	public String toString() {
@@ -191,8 +198,15 @@ public class Arriendo {
 				+ ", nombreDuenoEstacionamiento=" + nombreDuenoEstacionamiento + ", telefonoDueno=" + telefonoDueno
 				+ ", direccionEstacionamiento=" + direccionEstacionamiento + ", fechaDesde=" + fechaDesde
 				+ ", fechaHasta=" + fechaHasta + ", fechaRealSalida=" + fechaRealSalida + ", totalArriendo="
-				+ totalArriendo + "]";
+				+ totalArriendo + ", valorTarifa=" + valorTarifa + ", totalPagoExtra=" + totalPagoExtra
+				+ ", tiempoDiferencia=" + tiempoDiferencia + "]";
 	}
+
+	
+
+
+
+	
 
 	
 

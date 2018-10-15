@@ -46,6 +46,8 @@ public class ArriendoDaoImpl implements ArriendoDao {
 										new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
 										new SqlParameter("IN_ID_ESTACIONAMIENTO",OracleTypes.INTEGER),
 										new SqlParameter("IN_ID_VEHICULO",OracleTypes.INTEGER),
+										new SqlOutParameter("O_FECHA_INICIO",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_FECHA_TERMINO",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_PATENTE_VEHICULO",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_DUENO_EST",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_CONTACTO",OracleTypes.VARCHAR),
@@ -112,8 +114,47 @@ public class ArriendoDaoImpl implements ArriendoDao {
 			arr.setIdArriendo((Integer) result.get("O_ID_ARRIENDO"));
 			arr.setFechaDesde((String) result.get("O_FECHA_ENTRADA"));
 			arr.setFechaHasta((String) result.get("O_FECHA_SALIDA"));
-			arr.setTotalArriendo((Integer) result.get("O_TARIFA"));
+			arr.setValorTarifa((String) result.get("O_TARIFA"));
 			arr.setPatenteVehiculo((String) result.get("O_PATENTE"));
+			return arr;
+		}else {
+			return arr;
+		}
+	}
+
+	@Override
+	public Arriendo finishArriendo(Integer idArriendo) {
+		Integer res = 0;
+		Arriendo arr = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ARRIENDO.PROC_TERMINO_ARRIENDO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlOutParameter("O_VALOR_PAGO",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_FECHA_SALIDA_REAL",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_MINUTOS_DIF",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idArriendo);
+		res = (Integer) result.get("O_RESULT");
+		String pago = (String) result.get("O_VALOR_PAGO");
+		String fechaSalida = (String) result.get("O_FECHA_SALIDA_REAL");
+		String minutosDiff = (String) result.get("O_MINUTOS_DIF");
+		
+		Integer pagoInt = Integer.parseInt(pago);
+		
+		if(res.equals(1)) {
+			arr = new Arriendo();
+			arr.setTotalPagoExtra(pagoInt);
+			arr.setFechaRealSalida(fechaSalida);
+			arr.setTiempoDiferencia(minutosDiff);
+			
 			return arr;
 		}else {
 			return arr;
