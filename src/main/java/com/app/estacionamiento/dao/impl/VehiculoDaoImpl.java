@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.GenericStoredProcedure;
 import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Component;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.app.estacionamiento.dao.VehiculoDao;
 import com.app.estacionamiento.domain.Vehiculo;
