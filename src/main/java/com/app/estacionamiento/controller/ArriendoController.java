@@ -61,7 +61,7 @@ public class ArriendoController {
 			
 			arr.setIdPersona(Integer.parseInt((String) sesion.getAttribute("persona"))); 
 			
-			TimeZone timeZone = TimeZone.getTimeZone("Etc/GMT-3");
+			TimeZone timeZone = TimeZone.getTimeZone("Chile/Continental");
 			Calendar cal = Calendar.getInstance(timeZone);
 			
 			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
