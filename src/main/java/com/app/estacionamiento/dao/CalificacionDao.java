@@ -1,4 +1,4 @@
-package com.app.estacionamiento.dao.impl;
+package com.app.estacionamiento.dao;
 
 import org.springframework.stereotype.Component;
 

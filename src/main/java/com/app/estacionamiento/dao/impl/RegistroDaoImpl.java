@@ -207,7 +207,7 @@ public class RegistroDaoImpl implements RegistroDao{
 	@Override
 	public Boolean checkCreditCard(String creditCardNumber) {
 		Boolean result;
-		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("http://localhost:8180/checkid")
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("https://wscheckcard.herokuapp.com/checkid")
 				   .queryParam("idCard", creditCardNumber);
 
 		RestTemplate restTemplate = new RestTemplate();
