@@ -1,5 +1,6 @@
 package com.app.estacionamiento.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -159,6 +160,12 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		}else {
 			return arr;
 		}
+	}
+
+	@Override
+	public List<Arriendo> ArriendosHistoricos(Integer idPersona) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

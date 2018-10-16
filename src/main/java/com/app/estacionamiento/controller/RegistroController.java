@@ -53,8 +53,14 @@ public class RegistroController {
 			
 			Registro reg = registroDao.myAccount(idPersona, idUsuario);
 			
-			model.addAttribute("registro", reg);
-			model.addAttribute("tarjeta", "**** **** **** "+reg.getNumeroTarjeta().substring(12).toString());
+			
+			if(reg==null) {
+				model.addAttribute("tarjeta", "**** **** **** ****");
+				model.addAttribute("registro", new Registro());
+			}else {
+				model.addAttribute("tarjeta", "**** **** **** "+reg.getNumeroTarjeta().substring(12).toString());
+				model.addAttribute("registro", reg);
+			}
 			model.addAttribute("cvv","***");
 			model.addAttribute("fecha","**/**");
 			

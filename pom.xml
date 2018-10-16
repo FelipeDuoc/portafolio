@@ -10,7 +10,18 @@
 
 	<name>estacionamiento</name>
 	<description>Aplicación estacionamiento</description>
-
+	<repositories>
+    <repository>
+        <id>MavenCentral</id>
+        <name>Maven repository</name>
+        <url>https://repo.maven.apache.org/maven2/</url>
+    </repository>
+    <repository>
+        <id>ojdbc7</id>
+        <name>ojdbc repository</name>
+        <url>http://nexus.saas.hand-china.com/content/repositories/rdc/</url>
+    </repository>
+	</repositories>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>

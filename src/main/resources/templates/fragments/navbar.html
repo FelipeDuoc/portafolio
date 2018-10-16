@@ -50,8 +50,13 @@
 		          <a class="dropdown-item" href="#" th:href="@{/nuevoestacionamiento}">Nuevo</a>
 		      </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" th:href="@{/micuenta}">Mi cuenta</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mi Cuenta</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+		          <a class="dropdown-item" href="#" th:href="@{/micuenta}">Ver</a>
+		          <div th:if="${session.rol == '3'}" class="dropdown-divider"></div>
+		          <a th:if="${session.rol == '3' || session.rol == '5'}" class="dropdown-item" href="#" th:href="@{/historicoarriendo}">Arriendos</a>
+		      </div>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" th:href="@{/cerrarsesion}">Cerrar Sesión</a>

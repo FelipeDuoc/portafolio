@@ -92,16 +92,9 @@ public class ArriendoController {
 		
 	}
 	
-	@GetMapping("/resumenarriendo")
+	@GetMapping("/historicoarriendo")
 	public String resumenArriend(Model model) {
-		model.addAttribute("fechaDesde","12/02/2018 10:00:00");
-		model.addAttribute("fechaHasta","12/02/2018 12:00:00");
-		model.addAttribute("totalArriendo", "$3.800");
-		model.addAttribute("vehiculo", "HYTG12");
-		model.addAttribute("nombreDueno", "Nombre del dueño");
-		model.addAttribute("telefonoDueno", "+56978574623");
-		model.addAttribute("descripcionEstacionamiento", "Rio Clarillo 578, Puente Alto");
-		return "resumenarriendo";
+		return "historicoarriendo";
 	}
 	
 	
