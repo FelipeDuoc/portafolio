@@ -60,12 +60,12 @@ public class ArriendoController {
 			Arriendo arr = new Arriendo();
 			
 			arr.setIdPersona(Integer.parseInt((String) sesion.getAttribute("persona"))); 
-			
-			TimeZone timeZone = TimeZone.getTimeZone("Chile/Continental");
-			Calendar cal = Calendar.getInstance(timeZone);
+
+			Calendar cal = Calendar.getInstance();
 			
 			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			
+			cal.add(Calendar.HOUR, -3);
 			cal.add(Calendar.HOUR,Integer.parseInt(cantidadHoras));
 			cal.add(Calendar.MINUTE,Integer.parseInt(cantidadMinutos));
 			
