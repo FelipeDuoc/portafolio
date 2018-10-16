@@ -10,10 +10,13 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.GenericStoredProcedure;
 import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.app.estacionamiento.dao.RegistroDao;
 import com.app.estacionamiento.domain.Registro;
 import com.app.estacionamiento.domain.Tarjeta;
+import com.app.estacionamiento.domain.webservice.Response;
 
 import oracle.jdbc.OracleTypes;
 
@@ -199,6 +202,22 @@ public class RegistroDaoImpl implements RegistroDao{
 		resp = (Integer) result.get("O_RESULT");
 		
 		return resp;
+	}
+
+	@Override
+	public Boolean checkCreditCard(String creditCardNumber) {
+		Boolean result;
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("http://localhost:8180/checkid")
+				   .queryParam("idCard", creditCardNumber);
+
+		RestTemplate restTemplate = new RestTemplate();
+		Response resp = restTemplate.getForObject(builder.toUriString(), Response.class);
+		
+		result = resp.getIsvalid();
+		
+		return result;
+		
+		
 	}
 
 }
