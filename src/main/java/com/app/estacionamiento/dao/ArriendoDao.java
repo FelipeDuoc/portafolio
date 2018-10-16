@@ -14,6 +14,6 @@ public interface ArriendoDao {
 	public Arriendo newArriendo(Arriendo arriendo);
 	public Arriendo arriendoActivo(Integer idPersona);
 	public Arriendo finishArriendo(Integer idArriendo);
-	public List<Arriendo> ArriendosHistoricos(Integer idPersona); 
+	public List<Arriendo> HistoricoDuenoParking(Integer idPersona);
 
 }

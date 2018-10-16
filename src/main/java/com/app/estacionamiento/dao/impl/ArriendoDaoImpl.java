@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.app.estacionamiento.dao.ArriendoDao;
 import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.rowmapper.ArriendoRowMapper;
 
 import oracle.jdbc.OracleTypes;
 
@@ -163,9 +164,25 @@ public class ArriendoDaoImpl implements ArriendoDao {
 	}
 
 	@Override
-	public List<Arriendo> ArriendosHistoricos(Integer idPersona) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Arriendo> HistoricoDuenoParking(Integer idPersona) {
+		List<Arriendo> lista = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ARRIENDO.PROC_SELECT_HISTORICO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new ArriendoRowMapper()),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idPersona);
+		lista = (List<Arriendo>) result.get("PCURSOR");
+		
+		return lista;
 	}
 
 }

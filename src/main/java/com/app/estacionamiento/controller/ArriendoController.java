@@ -3,6 +3,7 @@ package com.app.estacionamiento.controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpSession;
 
@@ -60,7 +61,9 @@ public class ArriendoController {
 			
 			arr.setIdPersona(Integer.parseInt((String) sesion.getAttribute("persona"))); 
 			
-			Calendar cal = Calendar.getInstance();
+			TimeZone timeZone = TimeZone.getTimeZone("Etc/GMT-3");
+			Calendar cal = Calendar.getInstance(timeZone);
+			
 			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			
 			cal.add(Calendar.HOUR,Integer.parseInt(cantidadHoras));
@@ -93,8 +96,29 @@ public class ArriendoController {
 	}
 	
 	@GetMapping("/historicoarriendo")
-	public String resumenArriend(Model model) {
-		return "historicoarriendo";
+	public String resumenArriend(HttpSession sesion, 
+								Model model) {
+		
+//		if(sesion.getAttribute("rol")!=null) {
+//			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+////			Integer arriendo = Integer.parseInt(idArriendo);
+//			Arriendo finish = arriendoDao.finishArriendo(arriendo);
+////			model.addAttribute("idArriendo", idArriendo);
+//			if(finish!=null) {
+//				model.addAttribute("fechasalida", finish.getFechaRealSalida());
+//				model.addAttribute("totalpagoextra", finish.getTotalPagoExtra());
+//				model.addAttribute("tiempodiferencia", finish.getTiempoDiferencia());
+//				
+//				return "historicoarriendo";
+//			}else {
+//				return "inicioArriendoActivo"; 
+//			}
+//			
+//		}else {
+//			return "redirect:/iniciosesion?nop";
+//		}
+		return null;
+		
 	}
 	
 	
