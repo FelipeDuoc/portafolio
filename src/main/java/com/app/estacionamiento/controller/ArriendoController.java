@@ -63,12 +63,13 @@ public class ArriendoController {
 
 			Calendar cal = Calendar.getInstance();
 			
-			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
+			
 			
 			cal.add(Calendar.HOUR, -3);
 			cal.add(Calendar.HOUR,Integer.parseInt(cantidadHoras));
 			cal.add(Calendar.MINUTE,Integer.parseInt(cantidadMinutos));
 			
+			arr.setFechaDesde(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			arr.setFechaHasta(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(cal.getTime()));
 			arr.setIdVehiculo(Integer.parseInt(idVehiculo));
 			arr.setIdEstacionamiento(Integer.parseInt(idEstacionamiento));
