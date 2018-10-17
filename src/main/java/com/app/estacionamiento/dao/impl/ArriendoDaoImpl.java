@@ -181,8 +181,13 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		procedure.compile();
 		Map<String, Object>  result = procedure.execute(idPersona);
 		lista = (List<Arriendo>) result.get("PCURSOR");
+		Integer res = (Integer) result.get("O_RESULT");
 		
-		return lista;
+		if(res.equals(1)) {
+			return lista;
+		}else {
+			return lista = null;
+		}
 	}
 
 }

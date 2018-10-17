@@ -99,26 +99,14 @@ public class ArriendoController {
 	public String resumenArriend(HttpSession sesion, 
 								Model model) {
 		
-//		if(sesion.getAttribute("rol")!=null) {
-//			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
-////			Integer arriendo = Integer.parseInt(idArriendo);
-//			Arriendo finish = arriendoDao.finishArriendo(arriendo);
-////			model.addAttribute("idArriendo", idArriendo);
-//			if(finish!=null) {
-//				model.addAttribute("fechasalida", finish.getFechaRealSalida());
-//				model.addAttribute("totalpagoextra", finish.getTotalPagoExtra());
-//				model.addAttribute("tiempodiferencia", finish.getTiempoDiferencia());
-//				
-//				return "historicoarriendo";
-//			}else {
-//				return "inicioArriendoActivo"; 
-//			}
-//			
-//		}else {
-//			return "redirect:/iniciosesion?nop";
-//		}
-		return null;
-		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			List<Arriendo> lista = arriendoDao.HistoricoDuenoParking(idPersona);
+			model.addAttribute("lista", lista);		
+			return "listahistoricosarriendos";
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
 	}
 	
 	

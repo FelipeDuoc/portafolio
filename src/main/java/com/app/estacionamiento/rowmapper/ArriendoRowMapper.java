@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.app.estacionamiento.domain.Arriendo;
 
 public class ArriendoRowMapper implements RowMapper<Arriendo>{
-
+	
 	@Override
 	public Arriendo mapRow(ResultSet rs, int rowNum) throws SQLException {
 		// TODO Auto-generated method stub
