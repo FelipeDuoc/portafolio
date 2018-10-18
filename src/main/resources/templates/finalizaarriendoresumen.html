@@ -55,7 +55,6 @@
       <div class="row">
         <div class="col-md-8 order-md-1">
           <h4 class="mb-3">Resumen Arriendo Finalizado</h4>
-          <form class="needs-validation" method="post" novalidate th:action="@{/micuenta/editacuenta}" th:object="${arriendo}">
           	<div class="row">
 		        <div class="col-md-8 order-md-1">
 		          
@@ -80,8 +79,66 @@
 					</table>
 	          	</div>
 	        </div>
-            <button class="btn btn-primary btn-lg btn-block" >Finalizar</button>
+	      <form>
+	        <input type="hidden" id="idArriendo" name="idArriendo" th:value="${idArriendo}"/>
+            <button th:id="${idArriendo}" onclick="dosomething(this.id)" type = "button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Finalizar</button>
           </form>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+			    <div class="modal-header">
+			      <h5 class="modal-title" id="exampleModalLabel">Calificar</h5>
+			      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <span aria-hidden="true">&times;</span>
+			      </button>
+			    </div>
+			    <div class="modal-body">
+			      Desea calificar este servicio ?
+			    </div>
+			    <div class="modal-footer">
+<!-- 			      <button type="button" class="btn btn-secondary" data-dismiss="modal" >En otra ocasión</button> -->
+			      <a role="button" class="btn btn-secondary" href="#" th:href="@{/inicio}" >En otra ocasión</a>
+			      <button type="button" class="btn btn-primary" onclick="callCalificacionPaso1()" data-toggle="modal" data-target="#exampleModal2">Aceptar</button>
+			    </div>
+			  </div>
+			</div>
+		</div>
+		<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Calificación</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <form th:id="'form'+${idArriendo}" method="post" th:action="@{/calificaarriendo}" >
+			          <div class="form-group">
+			            <label for="inputState">Puntuación: </label>
+					      <select id="puntaje" name="puntaje" class="form-control">
+					        <option selected value="5">5 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span></option>
+					        <option value="4">4 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span></option>
+					        <option value="3">3 <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;</span></option>
+					        <option value="2">2 <span class="text-warning">&#9733; &#9733; &#9734; &#9734; &#9734;</span></option>
+					        <option value="1">1 <span class="text-warning">&#9733; &#9734; &#9734; &#9734; &#9734;</span></option>
+					      </select>
+			          </div>
+			          <div class="form-group">
+			            <label for="comentario" class="col-form-label">Comentario:</label>
+			            <textarea id="comentario" name="comentario" class="form-control" maxlength="100"></textarea>
+			          </div>
+			          <div class="modal-footer">
+<!-- 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+			        		<button type="button" class="btn btn-primary" onclick="callCalificacionPaso2()">Enviar</button>
+			        		<input type="hidden" id="idArriendo" name="idArriendo" th:value="${idArriendo}"/>
+			      		</div>
+			        </form>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
         </div>
       </div>
       <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -118,44 +175,28 @@
         }, false);
       })();
     </script>
-    <script type="text/javascript">
+	<script>
+	var formsubmit = null;
 	
-	var placeSearch, autocomplete;
+	function dosomething(value){
+		formsubmit = value;
+		console.log("valor del boton: "+value);
+	};
 	
-	function initAutocomplete() {
-
-	autocomplete = new google.maps.places.Autocomplete((document.getElementById('txtDireccion')),
-	    {types: ['geocode']});
-	autocomplete.addListener('place_changed', fillInAddress);
+	function callCalificacionPaso1(){
+// 		console.log("llamando al valor del formulario: "+formsubmit);
+		$('#exampleModal').modal('hide');
+// 		$('#'+formsubmit).submit();
+	};
 	
-	}
-	
-	function fillInAddress() {
-		var place = autocomplete.getPlace();
-		
-		var lat = place.geometry.location.lat();
-		var lon = place.geometry.location.lng();
-		
-		console.log(lat);
-		console.log(lon);
-		
-		var componentForm = {
-		     street_number: 'short_name',
-		     route: 'long_name',
-		     locality: 'long_name'
-		 };
-		
-		for (var i = 0; i < place.address_components.length; i++) {
-	        var addressType = place.address_components[i].types[0];
-	        if (componentForm[addressType]) {
-	          var val = place.address_components[i][componentForm[addressType]];
-	          $('input[id="'+addressType+'"]').val(val);
-	        }
-	     }
-    }
+	function callCalificacionPaso2(){
+// 		console.log("llamando al valor del formulario: "+formsubmit);
+// 		$('#exampleModal2').modal('hide');
+ 		$('#form'+formsubmit).submit();
+	};
 	
 	
-    </script>
+	</script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlzGNJG8FbQyPmu1xGj6Z3qoCA6PEBB_E&libraries=places&callback=initAutocomplete" async defer></script>
   </body>
 </html>

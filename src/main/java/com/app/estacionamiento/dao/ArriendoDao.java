@@ -15,5 +15,6 @@ public interface ArriendoDao {
 	public Arriendo arriendoActivo(Integer idPersona);
 	public Arriendo finishArriendo(Integer idArriendo);
 	public List<Arriendo> HistoricoDuenoParking(Integer idPersona);
+	public Integer newCalification(Integer idArriendo, Integer idPersona, Integer puntaje, String comentario);
 
 }

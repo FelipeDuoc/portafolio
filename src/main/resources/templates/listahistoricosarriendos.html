@@ -76,20 +76,9 @@
 			      <td th:text="${list.patenteVehiculo}"></td>
 			      <td th:text="${list.fechaDesde}"></td>
 			      <td th:text="${list.fechaRealSalida}"></td>
-			      <td th:text="${list.totalPagoExtra}"></td>
-			      <td th:text="${list.totalArriendo}"></td>
+			      <td th:text="'$' +${#numbers.formatInteger(list.totalPagoExtra, 1, 'POINT')}" ></td>
+			      <td th:text="'$' +${#numbers.formatInteger(list.totalArriendo, 1, 'POINT')}" ></td>
 			      <td th:text="${list.direccionEstacionamiento}"></td>
-			      
-<!-- 			      <td> -->
-<!-- 			      	<form method="post" style="display: inline-block;" th:action="@{/actualizavehiculo}"> -->
-<!-- 			      		<input type="hidden" name="idVehiculo" id="idVehiculo" th:value="${list.idVehiculo}" /> -->
-<!-- 			      		<button class="btn btn-info" type="submit">Edita</button> -->
-<!-- 			      	</form> -->
-<!-- 			      	<form th:id="${list.idVehiculo}" method="post" style="display: inline-block;" th:action="@{/eliminavehiculo/elimina}"> -->
-<!-- 			      		<input type="hidden" name="idVehiculo" id="idVehiculo" th:value="${list.idVehiculo}" /> -->
-<!-- 			      		<button th:id="${list.idVehiculo}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button> -->
-<!-- 			      	</form> -->
-<!-- 			      </td> -->
 			    </tr>
 			  </tbody>
 			  <tbody th:if="${lista.size()==0}" >

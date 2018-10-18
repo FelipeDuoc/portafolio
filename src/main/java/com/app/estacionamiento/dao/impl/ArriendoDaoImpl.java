@@ -190,4 +190,28 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		}
 	}
 
+	@Override
+	public Integer newCalification(Integer idArriendo, Integer idPersona, Integer puntaje, String comentario) {
+		Integer resp = 0;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_CALIFICACION.PROC_INSERT_CALIFICACION");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_ARRIENDO",OracleTypes.INTEGER),
+										new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlParameter("IN_PUNTAJE",OracleTypes.INTEGER),
+										new SqlParameter("IN_COMENTARIO",OracleTypes.VARCHAR),
+										
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idArriendo,idPersona,puntaje,comentario);
+		resp = (Integer) result.get("O_RESULT");
+		return resp;
+	}
+
 }

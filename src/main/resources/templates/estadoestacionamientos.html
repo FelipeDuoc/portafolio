@@ -31,7 +31,7 @@
 	<div class="container">
 		<hr class="mb-4">
 		<br/>
-		<h1>Mis Estacionamientos</h1>
+		<h1>Resumen estacionamientos</h1>
 		<hr class="mb-4">
 	  	<div th:if="${uok!=null}" class="alert alert-success alert-dismissible fade show" role="alert">
 		  <strong>Estacionamiento Actualizado!</strong> Actualizaste el estacionamiento de forma exitosa.
@@ -62,51 +62,41 @@
 			    <tr>
 			      <th scope="col">Descripción</th>
 			      <th scope="col">Tipo de Tarifa</th>
-			      <th scope="col">Opiones</th>
 			    </tr>
-			  <tbody th:if="${lista.size()>0}" >
-			    <tr th:each="list : ${lista}">
-			      <td th:text="${list.descripcion}"></td>
-			      <td th:text="${list.tarifa}"></td>
-			      <td>	
-			      		<form method="post" style="display: inline-block;" th:action="@{/actualizaestacionamiento}">
-				      		<input type="hidden" name="idEstacionamiento" id="idEstacionamiento" th:value="${list.idEstacionamiento}" />
-				      		<button class="btn btn-info" type="submit">Edita</button>
-			      		</form>
-			      		<form th:id="${list.idEstacionamiento}" method="post" style="display: inline-block;" th:action="@{/eliminaestacionamiento/elimina}">
-				      		<input type="hidden" name="idEstacionamiento" id=idEstacionamiento th:value="${list.idEstacionamiento}" />
-				      		<button th:id="${list.idEstacionamiento}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button>
-			      		</form>
-<!-- 			      		<a role="button" class="btn btn-info" href="#" th:href="@{'/modificarestacionamiento/mod?id='+${list.idEstacionamiento}}">Editar</a> -->
-<!-- 			      		<a role="button" class="btn btn-danger" href="#" th:href="@{'/Eliminaestacionamiento/mod?id='+${list.idEstacionamiento}}">Borrar</a> -->
-			      </td>
-			    </tr>
-			  </tbody>
-			  <tbody th:if="${lista.size()==0}" >
+			  <tbody >
 			    <tr>
-			      <td colspan="3" style="text-align: center">No existen estacionamientos registrados.</td>
+			      <td>Rio clarillo 578, Puente alto</td>
+			      <td>Fija</td>
 			    </tr>
-			  </tbody>
+			    <tr>
+			      <td>Las nieves 45, Las Condes</td>
+			      <td>Fija</td>
+			    </tr>
+			  </tbody>			    
+<!-- 			  <tbody th:if="${lista.size()>0}" > -->
+<!-- 			    <tr th:each="list : ${lista}"> -->
+<!-- 			      <td th:text="${list.descripcion}"></td> -->
+<!-- 			      <td th:text="${list.tarifa}"></td> -->
+<!-- 			      <td>	 -->
+<!-- 			      		<form method="post" style="display: inline-block;" th:action="@{/actualizaestacionamiento}"> -->
+<!-- 				      		<input type="hidden" name="idEstacionamiento" id="idEstacionamiento" th:value="${list.idEstacionamiento}" /> -->
+<!-- 				      		<button class="btn btn-info" type="submit">Edita</button> -->
+<!-- 			      		</form> -->
+<!-- 			      		<form th:id="${list.idEstacionamiento}" method="post" style="display: inline-block;" th:action="@{/eliminaestacionamiento/elimina}"> -->
+<!-- 				      		<input type="hidden" name="idEstacionamiento" id=idEstacionamiento th:value="${list.idEstacionamiento}" /> -->
+<!-- 				      		<button th:id="${list.idEstacionamiento}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button> -->
+<!-- 			      		</form> -->
+<!-- <!-- 			      		<a role="button" class="btn btn-info" href="#" th:href="@{'/modificarestacionamiento/mod?id='+${list.idEstacionamiento}}">Editar</a> --> -->
+<!-- <!-- 			      		<a role="button" class="btn btn-danger" href="#" th:href="@{'/Eliminaestacionamiento/mod?id='+${list.idEstacionamiento}}">Borrar</a> --> -->
+<!-- 			      </td> -->
+<!-- 			    </tr> -->
+<!-- 			  </tbody> -->
+<!-- 			  <tbody th:if="${lista.size()==0}" > -->
+<!-- 			    <tr> -->
+<!-- 			      <td colspan="3" style="text-align: center">No existen estacionamientos registrados.</td> -->
+<!-- 			    </tr> -->
+<!-- 			  </tbody> -->
 			</table>
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-			  <div class="modal-content">
-			    <div class="modal-header">
-			      <h5 class="modal-title" id="exampleModalLabel">Eliminar estacionamiento</h5>
-			      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			        <span aria-hidden="true">&times;</span>
-			      </button>
-			    </div>
-			    <div class="modal-body">
-			      ¿Esta seguro que desea eliminar el estacionamiento?
-			    </div>
-			    <div class="modal-footer">
-			      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-			      <button type="button" onclick="callDelete()" class="btn btn-primary" >Aceptar</button>
-			    </div>
-			  </div>
-			</div>
-		</div>
 	</div>
 </body>
 <script th:inline="javascript">

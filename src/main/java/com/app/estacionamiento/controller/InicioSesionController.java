@@ -54,16 +54,22 @@ public class InicioSesionController {
 			
 			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
 			Integer idPersona = Integer.parseInt(cr.getIdPersona());
+			Integer idRol = Integer.parseInt(cr.getIdRol());
 			
-			Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
-			
-			if(arriendo!=null) {
-				model.addAttribute("idArriendo", arriendo.getIdArriendo());
-				return "inicioArriendoActivo";			
+			if(idRol.equals(3)) {
+				return "estadoestacionamientos";
 			}else {
-				model.addAttribute("anok", anok);
-				return "inicio";
+				Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
+				if(arriendo!=null) {
+					model.addAttribute("idArriendo", arriendo.getIdArriendo());
+					return "inicioArriendoActivo";			
+				}else {
+					model.addAttribute("anok", anok);
+					return "inicio";
+				}
 			}
+			
+			
 		}else {
 			return "redirect:/iniciosesion?error";
 		}

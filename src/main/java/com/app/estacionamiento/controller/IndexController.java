@@ -50,19 +50,30 @@ public class IndexController {
 	@GetMapping(value="/inicio")
 	private String inicioSesionPage(HttpSession sesion, 
 									Model model,
-									@RequestParam(value="anok", required=false) String anok) {
+									@RequestParam(value="anok", required=false) String anok,
+									@RequestParam(value="cnok", required=false) String cnok,
+									@RequestParam(value="cok", required=false) String cok) {
 		if(sesion.getAttribute("rol")!=null) {
+			
 			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			
-			Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
-			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
-
-			if(arriendo!=null) {
-				model.addAttribute("idArriendo", arriendo.getIdArriendo());
-				return "inicioArriendoActivo";			
+			Integer idRol = Integer.parseInt((String) sesion.getAttribute("rol"));
+			
+			if(idRol.equals(3)) {
+				return "estadoestacionamientos";
 			}else {
-				model.addAttribute("anok", anok);
-				return "inicio";
+				Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
+				model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+
+				if(arriendo!=null) {
+					model.addAttribute("idArriendo", arriendo.getIdArriendo());
+					return "inicioArriendoActivo";			
+				}else {
+					model.addAttribute("anok", anok);
+					model.addAttribute("cok", cok);
+					model.addAttribute("cnok", cnok);
+					return "inicio";
+				}
 			}
 			
 		}else {

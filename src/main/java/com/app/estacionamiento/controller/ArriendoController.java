@@ -132,4 +132,54 @@ public class ArriendoController {
 			return "redirect:/iniciosesion?nop";
 		}
 	}
+//	
+//	@GetMapping("/finalizaarriendo")
+//	public String FinalizaArriendoFake(Model model) {
+//		
+//		model.addAttribute("idArriendo", 31);
+//		model.addAttribute("fechasalida", "10-12-2018 12:34:01");
+//		model.addAttribute("totalpagoextra", "$1.200");
+//		model.addAttribute("tiempodiferencia", "14 min.");
+//		return "finalizaarriendoresumen";
+//	}
+	
+	@GetMapping("/listacalificacionespendientesc")
+	public String CalificacionArriendosPC(Model model) {
+		
+		return "listaarriendossincalificarc";
+	}
+	
+	@GetMapping("/listacalificacionespendientesd")
+	public String CalificacionArriendosPD(Model model) {
+		
+		return "listaarriendossincalificard";
+	}
+	
+	@PostMapping("/calificaarriendo")
+	public String CalificaArriendo(HttpSession sesion, 
+									Model model,
+									@RequestParam(name="idArriendo",required=true) String idArriendo,
+									@RequestParam(name="puntaje",required=true) String puntaje,
+									@RequestParam(name="comentario",required=true) String comentario) {
+		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			Integer arriendo = Integer.parseInt(idArriendo);
+			Integer puntajeint = Integer.parseInt(puntaje);
+			
+			Integer result = arriendoDao.newCalification(arriendo, idPersona, puntajeint, comentario);
+			
+			if(result.equals(1)) {
+				return "redirect:/inicio?cok";
+			}else {
+				return "redirect:/inicio?cnok";
+			}
+			
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+		
+	}
+	
+	
 }
