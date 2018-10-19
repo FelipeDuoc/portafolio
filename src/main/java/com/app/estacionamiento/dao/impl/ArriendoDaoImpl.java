@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.app.estacionamiento.dao.ArriendoDao;
 import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.rowmapper.ArriendoPendientesRowMapper;
 import com.app.estacionamiento.rowmapper.ArriendoRowMapper;
 
 import oracle.jdbc.OracleTypes;
@@ -212,6 +213,35 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		Map<String, Object>  result = procedure.execute(idArriendo,idPersona,puntaje,comentario);
 		resp = (Integer) result.get("O_RESULT");
 		return resp;
+	}
+
+	@Override
+	public List<Arriendo> PendientesCalificacion(Integer idPersona, String idRolCalificador) {
+		List<Arriendo> lista = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_CALIFICACION.PROC_SELECT_ARRIENDO_NO_CALIF");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlParameter("IN_ROL_CALIFICACION",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER),
+										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new ArriendoPendientesRowMapper())
+										
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idPersona, idRolCalificador);
+		lista = (List<Arriendo>) result.get("PCURSOR");
+		Integer res = (Integer) result.get("O_RESULT");
+		
+		if(res.equals(1)) {
+			return lista;
+		}else {
+			return lista = null;
+		}
 	}
 
 }

@@ -144,15 +144,48 @@ public class ArriendoController {
 //	}
 	
 	@GetMapping("/listacalificacionespendientesc")
-	public String CalificacionArriendosPC(Model model) {
+	public String CalificacionArriendosPC(HttpSession sesion, Model model,
+										@RequestParam(name="ok",required=false) String ok,
+										@RequestParam(name="nok",required=false) String nok) {
 		
-		return "listaarriendossincalificarc";
+		if(sesion.getAttribute("rol")!=null) {
+			List<Arriendo> lista = null;
+			
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			String idRolCalificador =(String) sesion.getAttribute("rol");
+			if(idRolCalificador.equals("2")) {
+				lista = arriendoDao.PendientesCalificacion(idPersona, "C");
+			}
+			
+			model.addAttribute("ok", ok);
+			model.addAttribute("nok", nok);
+			model.addAttribute("lista", lista);
+			return "listaarriendossincalificarc";
+			
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
 	}
 	
 	@GetMapping("/listacalificacionespendientesd")
-	public String CalificacionArriendosPD(Model model) {
+	public String CalificacionArriendosPD(HttpSession sesion, Model model) {
 		
-		return "listaarriendossincalificard";
+		if(sesion.getAttribute("rol")!=null) {
+			List<Arriendo> lista = null;
+			
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			String idRolCalificador =(String) sesion.getAttribute("rol");
+			if(idRolCalificador.equals("3")) {
+				lista = arriendoDao.PendientesCalificacion(idPersona, "D");
+			}
+			
+			model.addAttribute("lista", lista);
+			return "listaarriendossincalificard";
+			
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+		
 	}
 	
 	@PostMapping("/calificaarriendo")
@@ -178,7 +211,31 @@ public class ArriendoController {
 		}else {
 			return "redirect:/iniciosesion?nop";
 		}
+	}
+	
+	@PostMapping("/calificaarriendopc")
+	public String CalificaArriendoPC(HttpSession sesion, 
+									Model model,
+									@RequestParam(name="idArriendo",required=true) String idArriendo,
+									@RequestParam(name="puntaje",required=true) String puntaje,
+									@RequestParam(name="comentario",required=true) String comentario) {
 		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			Integer arriendo = Integer.parseInt(idArriendo);
+			Integer puntajeint = Integer.parseInt(puntaje);
+			
+			Integer result = arriendoDao.newCalification(arriendo, idPersona, puntajeint, comentario);
+			
+			if(result.equals(1)) {
+				return "redirect:/listacalificacionespendientesc?ok";
+			}else {
+				return "redirect:/listacalificacionespendientesc?nok";
+			}
+			
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
 	}
 	
 	
