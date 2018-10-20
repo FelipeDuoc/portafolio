@@ -64,6 +64,13 @@ public class InicioSesionController {
 			
 			Calificacion cal = sesiondao.getCalification(idPersona);
 			
+			if(cal.getPromedio_cliente()==null) {
+				cal.setPromedio_cliente("0");
+			}
+			if(cal.getPromedio_dueno()==null) {
+				cal.setPromedio_dueno("0");
+			}
+			
 			Double calcliente = Double.parseDouble(cal.getPromedio_cliente().replace(",", "."));
 			Double caldueno = Double.parseDouble(cal.getPromedio_dueno().replace(",", "."));
 			

@@ -49,7 +49,9 @@ public class RegistroDaoImpl implements RegistroDao{
 										new SqlParameter("IN_NOMBRE_USUARIO",OracleTypes.VARCHAR),
 										new SqlParameter("IN_PASSWORD_USUARIO",OracleTypes.VARCHAR),
 										new SqlParameter("IN_ID_ROL",OracleTypes.INTEGER),
-										
+										new SqlParameter("IN_NUMERO_CUENTA",OracleTypes.INTEGER),
+										new SqlParameter("IN_ID_BANCO",OracleTypes.INTEGER),
+										new SqlParameter("IN_ID_TIPO_CUENTA",OracleTypes.INTEGER),
 										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
 									 };
 		
@@ -68,7 +70,10 @@ public class RegistroDaoImpl implements RegistroDao{
 														registro.getFechaVencimiento(),
 														registro.getUsuario(),
 														registro.getContrasena(),
-														registro.getIdRol());
+														registro.getIdRol(),
+														registro.getNumeroCuentaDeposito(),
+														registro.getIdBanco(),
+														registro.getIdTipoCuenta());
 		res = (int) result.get("O_RESULT");
 		
 		return res;
