@@ -104,6 +104,12 @@ public class RegistroDaoImpl implements RegistroDao{
 										new SqlOutParameter("O_NUMERO_TARJETA",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_CODIGO_SEGURIDAD",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_FECHA_VENCIMIENTO",OracleTypes.VARCHAR),
+										
+										new SqlOutParameter("O_NUMERO_CUENTA",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_ID_BANCO",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_BANCO",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_ID_TIPO_CUENTA",OracleTypes.VARCHAR),
+										new SqlOutParameter("O_TIPO_CUENTA",OracleTypes.VARCHAR),
 										new SqlOutParameter("O_PASS",OracleTypes.VARCHAR),
 				
 										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)};
@@ -130,6 +136,11 @@ public class RegistroDaoImpl implements RegistroDao{
 			reg.setNumeroTarjeta((String) result.get("O_NUMERO_TARJETA"));
 			reg.setCodigoSeguridadTarjeta((String) result.get("O_CODIGO_SEGURIDAD"));
 			reg.setFechaVencimiento((String) result.get("O_FECHA_VENCIMIENTO"));
+			reg.setNumeroCuentaDeposito((String) result.get("O_NUMERO_CUENTA"));
+			reg.setIdBanco((String) result.get("O_ID_BANCO"));
+			reg.setBancoDescripcion((String) result.get("O_BANCO"));
+			reg.setIdTipoCuenta((String) result.get("O_ID_TIPO_CUENTA"));
+			reg.setTipoCuentaDescripcion((String) result.get("O_TIPO_CUENTA"));
 			reg.setContrasena((String) result.get("O_PASS"));
 		}
 		

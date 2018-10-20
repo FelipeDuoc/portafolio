@@ -18,4 +18,5 @@ public interface EstacionamientoDao {
 	public EstacionamientoObjBD getParkingById(int idPersona, int idEstacionamiento);
 	public int updateParking(EstacionamientoObjBD estacionamiento);
 	public int deleteParking(int idEstacionamiento);
+	public List<EstacionamientoObjBD> getParkingInUse(Integer idPersona);
 }

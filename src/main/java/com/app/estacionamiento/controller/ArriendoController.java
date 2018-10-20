@@ -151,6 +151,8 @@ public class ArriendoController {
 		if(sesion.getAttribute("rol")!=null) {
 			List<Arriendo> lista = null;
 			
+			Long starcliente = Long.parseLong((String) sesion.getAttribute("starcliente"));
+			
 			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			String idRolCalificador =(String) sesion.getAttribute("rol");
 			if(idRolCalificador.equals("2")) {

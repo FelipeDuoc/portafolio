@@ -17,6 +17,7 @@ import com.app.estacionamiento.domain.Estacionamiento;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
 import com.app.estacionamiento.rowmapper.EstacionamientoObjBDRowMapper;
 import com.app.estacionamiento.rowmapper.EstacionamientoRowMapper;
+import com.app.estacionamiento.rowmapper.EstacionamientosEnUsoRowMapper;
 
 import oracle.jdbc.OracleTypes;
 
@@ -229,6 +230,30 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		res = (int) result.get("O_RESULT");
 		
 		return res;
+	}
+
+	@Override
+	public List<EstacionamientoObjBD> getParkingInUse(Integer idPersona) {
+		List<EstacionamientoObjBD> lista = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_SELECT_EST_ARRENDADO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters =  {	new SqlParameter("IN_ID_PERSONA",OracleTypes.VARCHAR),
+										new SqlOutParameter("PCURSOR", OracleTypes.CURSOR, new EstacionamientosEnUsoRowMapper()),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idPersona);
+		lista = (List<EstacionamientoObjBD>) result.get("PCURSOR");
+		
+		Integer resp = (Integer) result.get("O_RESULT");
+		
+		return lista;
 	}
 
 }

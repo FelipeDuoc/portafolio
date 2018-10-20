@@ -60,42 +60,32 @@
 		<table id="tablaEstacionamientos" class="table">
 			  <thead class="thead-dark">
 			    <tr>
-			      <th scope="col">Descripción</th>
-			      <th scope="col">Tipo de Tarifa</th>
+			      <th scope="col">Dueño</th>
+			      <th scope="col">Vehículo</th>
+			      <th scope="col">Estacionamiento</th>
+			      <th scope="col">Tiempo (Hrs.)</th>
+			      <th scope="col">Estado</th>
+			    </tr>		    
+			  <tbody th:if="${lista.size()>0}" >
+			    <tr th:each="list : ${lista}">
+			      <td th:text="${list.nombreDueno}"></td>
+			      <td th:text="${list.observacion}"></td>
+			      <td th:text="${list.descripcion}"></td>
+			      <td th:text="${list.idTarifa}"></td>
+			      <td>	
+			      		<form method="post" style="display: inline-block;" th:action="@{/envianotificacion}">
+				      		<input type="hidden" name="idEstacionamiento" id="idEstacionamiento" th:value="${list.idEstacionamiento}" />
+				      		<button th:if="${list.descripcionTipoTarifa == 'TRUE' }" class="btn btn-danger" type="submit"><span class="glyphicon">&#x2709;</span> Notificar</button>
+				      		<p><span th:if="${list.descripcionTipoTarifa == 'FALSE' }" class="glyphicon text-success">&#xe089; </span> Usando</p>
+			      		</form>
+			      </td>
 			    </tr>
-			  <tbody >
+			  </tbody>
+			  <tbody th:if="${lista.size()==0}" >
 			    <tr>
-			      <td>Rio clarillo 578, Puente alto</td>
-			      <td>Fija</td>
+			      <td colspan="3" style="text-align: center">No existen estacionamientos en uso.</td>
 			    </tr>
-			    <tr>
-			      <td>Las nieves 45, Las Condes</td>
-			      <td>Fija</td>
-			    </tr>
-			  </tbody>			    
-<!-- 			  <tbody th:if="${lista.size()>0}" > -->
-<!-- 			    <tr th:each="list : ${lista}"> -->
-<!-- 			      <td th:text="${list.descripcion}"></td> -->
-<!-- 			      <td th:text="${list.tarifa}"></td> -->
-<!-- 			      <td>	 -->
-<!-- 			      		<form method="post" style="display: inline-block;" th:action="@{/actualizaestacionamiento}"> -->
-<!-- 				      		<input type="hidden" name="idEstacionamiento" id="idEstacionamiento" th:value="${list.idEstacionamiento}" /> -->
-<!-- 				      		<button class="btn btn-info" type="submit">Edita</button> -->
-<!-- 			      		</form> -->
-<!-- 			      		<form th:id="${list.idEstacionamiento}" method="post" style="display: inline-block;" th:action="@{/eliminaestacionamiento/elimina}"> -->
-<!-- 				      		<input type="hidden" name="idEstacionamiento" id=idEstacionamiento th:value="${list.idEstacionamiento}" /> -->
-<!-- 				      		<button th:id="${list.idEstacionamiento}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button> -->
-<!-- 			      		</form> -->
-<!-- <!-- 			      		<a role="button" class="btn btn-info" href="#" th:href="@{'/modificarestacionamiento/mod?id='+${list.idEstacionamiento}}">Editar</a> --> -->
-<!-- <!-- 			      		<a role="button" class="btn btn-danger" href="#" th:href="@{'/Eliminaestacionamiento/mod?id='+${list.idEstacionamiento}}">Borrar</a> --> -->
-<!-- 			      </td> -->
-<!-- 			    </tr> -->
-<!-- 			  </tbody> -->
-<!-- 			  <tbody th:if="${lista.size()==0}" > -->
-<!-- 			    <tr> -->
-<!-- 			      <td colspan="3" style="text-align: center">No existen estacionamientos registrados.</td> -->
-<!-- 			    </tr> -->
-<!-- 			  </tbody> -->
+			  </tbody>
 			</table>
 	</div>
 </body>

@@ -12,6 +12,7 @@ import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Component;
 
 import com.app.estacionamiento.dao.SesionDao;
+import com.app.estacionamiento.domain.Calificacion;
 import com.app.estacionamiento.domain.Credenciales;
 import com.app.estacionamiento.domain.CredencialesResp;
 import com.app.estacionamiento.rowmapper.CredencialesRespRowMapper;
@@ -62,6 +63,39 @@ public class SesionDaoImpl implements SesionDao{
 	@Override
 	public void setDataSource(DataSource ds) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Calificacion getCalification(Integer idPersona) {
+		
+		Calificacion cal = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_CALIFICACION.PROC_CALCULA_CALIFICACION");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {
+									new SqlParameter("IN_ID_PERSONA", OracleTypes.INTEGER),
+									new SqlOutParameter("O_PROMEDIO_CLIENTE",OracleTypes.VARCHAR),
+									new SqlOutParameter("O_PROMEDIO_DUENO",OracleTypes.VARCHAR),
+									new SqlOutParameter("O_RESULT",OracleTypes.INTEGER),
+									};
+        
+		procedure.setParameters(parameters);
+		procedure.compile();
+		
+		Map<String, Object>  result = procedure.execute(idPersona);
+		
+		Integer res = (Integer) result.get("O_RESULT");
+		
+		if(res.equals(1)) {
+			cal = new Calificacion();
+			cal.setPromedio_cliente((String) result.get("O_PROMEDIO_CLIENTE"));
+			cal.setPromedio_dueno((String) result.get("O_PROMEDIO_DUENO"));
+		}
+		return cal;
 		
 	}
 

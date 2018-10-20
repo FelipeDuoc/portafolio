@@ -1,5 +1,9 @@
 package com.app.estacionamiento.domain;
 
+import org.springframework.jdbc.core.SqlOutParameter;
+
+import oracle.jdbc.OracleTypes;
+
 public class Registro {
 	private Integer idPersona;
 	private String rut;
@@ -21,18 +25,24 @@ public class Registro {
 	private String contrasena;
 	private Integer idRol;
 	
+	private String numeroCuentaDeposito;
+	private String idBanco;
+	private String bancoDescripcion;
+	private String idTipoCuenta;
+	private String tipoCuentaDescripcion;
+	
+	
 	public Registro() {
 		super();
 	}
-
-	
 	
 	
 
 	public Registro(Integer idPersona, String rut, String nombre, String apellidoPaterno, String apellidoMaterno,
 			String nombreCalle, String numeroCalle, String telefono, String email, Integer idTarjeta,
 			String numeroTarjeta, String codigoSeguridadTarjeta, String fechaVencimiento, String idUsuario,
-			String usuario, String contrasena, Integer idRol) {
+			String usuario, String contrasena, Integer idRol, String numeroCuentaDeposito, String idBanco,
+			String bancoDescripcion, String idTipoCuenta, String tipoCuentaDescripcion) {
 		super();
 		this.idPersona = idPersona;
 		this.rut = rut;
@@ -51,7 +61,74 @@ public class Registro {
 		this.usuario = usuario;
 		this.contrasena = contrasena;
 		this.idRol = idRol;
+		this.numeroCuentaDeposito = numeroCuentaDeposito;
+		this.idBanco = idBanco;
+		this.bancoDescripcion = bancoDescripcion;
+		this.idTipoCuenta = idTipoCuenta;
+		this.tipoCuentaDescripcion = tipoCuentaDescripcion;
 	}
+
+
+
+	public String getNumeroCuentaDeposito() {
+		return numeroCuentaDeposito;
+	}
+
+
+
+	public void setNumeroCuentaDeposito(String numeroCuentaDeposito) {
+		this.numeroCuentaDeposito = numeroCuentaDeposito;
+	}
+
+
+
+	public String getIdBanco() {
+		return idBanco;
+	}
+
+
+
+	public void setIdBanco(String idBanco) {
+		this.idBanco = idBanco;
+	}
+
+
+
+	public String getBancoDescripcion() {
+		return bancoDescripcion;
+	}
+
+
+
+	public void setBancoDescripcion(String bancoDescripcion) {
+		this.bancoDescripcion = bancoDescripcion;
+	}
+
+
+
+	public String getIdTipoCuenta() {
+		return idTipoCuenta;
+	}
+
+
+
+	public void setIdTipoCuenta(String idTipoCuenta) {
+		this.idTipoCuenta = idTipoCuenta;
+	}
+
+
+
+	public String getTipoCuentaDescripcion() {
+		return tipoCuentaDescripcion;
+	}
+
+
+
+	public void setTipoCuentaDescripcion(String tipoCuentaDescripcion) {
+		this.tipoCuentaDescripcion = tipoCuentaDescripcion;
+	}
+
+
 
 	public Integer getIdPersona() {
 		return idPersona;
@@ -189,6 +266,8 @@ public class Registro {
 		this.email = email;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "Registro [idPersona=" + idPersona + ", rut=" + rut + ", nombre=" + nombre + ", apellidoPaterno="
@@ -196,8 +275,12 @@ public class Registro {
 				+ ", numeroCalle=" + numeroCalle + ", telefono=" + telefono + ", email=" + email + ", idTarjeta="
 				+ idTarjeta + ", numeroTarjeta=" + numeroTarjeta + ", codigoSeguridadTarjeta=" + codigoSeguridadTarjeta
 				+ ", fechaVencimiento=" + fechaVencimiento + ", idUsuario=" + idUsuario + ", usuario=" + usuario
-				+ ", contrasena=" + contrasena + ", idRol=" + idRol + "]";
+				+ ", contrasena=" + contrasena + ", idRol=" + idRol + ", numeroCuentaDeposito=" + numeroCuentaDeposito
+				+ ", idBanco=" + idBanco + ", bancoDescripcion=" + bancoDescripcion + ", idTipoCuenta=" + idTipoCuenta
+				+ ", tipoCuentaDescripcion=" + tipoCuentaDescripcion + "]";
 	}
+
+	
 	
 	
 	

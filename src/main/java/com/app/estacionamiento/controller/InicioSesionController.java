@@ -1,5 +1,7 @@
 package com.app.estacionamiento.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.estacionamiento.dao.ArriendoDao;
+import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.dao.SesionDao;
 import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.domain.Calificacion;
 import com.app.estacionamiento.domain.Credenciales;
 import com.app.estacionamiento.domain.CredencialesResp;
+import com.app.estacionamiento.domain.EstacionamientoObjBD;
 
 @Controller
 public class InicioSesionController {
@@ -25,6 +30,9 @@ public class InicioSesionController {
 	
 	@Autowired
 	private ArriendoDao arriendodao;
+	
+	@Autowired
+	private EstacionamientoDao estacionamientoDao;
 	
 	@GetMapping(value="/iniciosesion")
 	private ModelAndView inicioSesionPage(Model model, 
@@ -52,11 +60,31 @@ public class InicioSesionController {
 			sesion.setAttribute("nombre", cr.getNombrePersona());
 			sesion.setAttribute("persona", cr.getIdPersona());
 			
-			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
 			Integer idPersona = Integer.parseInt(cr.getIdPersona());
+			
+			Calificacion cal = sesiondao.getCalification(idPersona);
+			
+			Double calcliente = Double.parseDouble(cal.getPromedio_cliente().replace(",", "."));
+			Double caldueno = Double.parseDouble(cal.getPromedio_dueno().replace(",", "."));
+			
+			Long starcliente = Math.round(calcliente);
+			sesion.setAttribute("starcliente", starcliente);
+			
+			Long stardueno = Math.round(caldueno);
+			sesion.setAttribute("stardueno", stardueno);
+			
+			sesion.setAttribute("calificacionCliente", calcliente);
+			sesion.setAttribute("calificacionDueno", caldueno);
+			sesion.setAttribute("starcliente", starcliente);
+			sesion.setAttribute("stardueno", stardueno);
+			
+			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
+			
 			Integer idRol = Integer.parseInt(cr.getIdRol());
 			
 			if(idRol.equals(3)) {
+				List <EstacionamientoObjBD> lista = estacionamientoDao.getParkingInUse(idPersona);
+				model.addAttribute("lista", lista);
 				return "estadoestacionamientos";
 			}else {
 				Arriendo arriendo = arriendodao.arriendoActivo(idPersona);
@@ -81,6 +109,9 @@ public class InicioSesionController {
 		sesion.removeAttribute("usuario");
 		sesion.removeAttribute("pass");
 		sesion.removeAttribute("rol");
+		sesion.removeAttribute("persona");
+		sesion.removeAttribute("calificacionCliente");
+		sesion.removeAttribute("calificacionDueno");
 		sesion.invalidate();
 		
 		return "redirect:/iniciosesion";

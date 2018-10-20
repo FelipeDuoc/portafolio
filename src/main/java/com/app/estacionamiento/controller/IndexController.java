@@ -1,5 +1,7 @@
 package com.app.estacionamiento.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.estacionamiento.dao.ArriendoDao;
+import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.domain.EstacionamientoObjBD;
 
 @Controller
 public class IndexController {
 	
 	@Autowired
 	private ArriendoDao arriendodao;
+	
+	@Autowired
+	private EstacionamientoDao estacionamientoDao;
 	
 	@GetMapping(value="/test")
 	private ModelAndView IndexCon(HttpSession sesion) {
@@ -60,6 +67,8 @@ public class IndexController {
 			Integer idRol = Integer.parseInt((String) sesion.getAttribute("rol"));
 			
 			if(idRol.equals(3)) {
+				List <EstacionamientoObjBD> lista = estacionamientoDao.getParkingInUse(idPersona);
+				model.addAttribute("lista", lista);
 				return "estadoestacionamientos";
 			}else {
 				Arriendo arriendo = arriendodao.arriendoActivo(idPersona);

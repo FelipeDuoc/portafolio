@@ -142,9 +142,6 @@ public class EstacionamientoController {
 		}else {
 			return "redirect:/iniciosesion";
 		}
-		
-		
-		
 	}
 	
 	

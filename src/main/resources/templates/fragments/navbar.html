@@ -60,7 +60,11 @@
               <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 		          <a class="dropdown-item" href="#" th:href="@{/listacalificacionespendientesc}">Ver</a>
 		          <div th:if="${session.rol == '3'}" class="dropdown-divider"></div>
-		          <a class="dropdown-item" href="#">4.8 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;(C)</span></a>
+		          <a th:if="${session.starcliente == 1}" class="dropdown-item" href="#"><p th:text="${session.calificacionCliente}" ></p> <span class="text-warning">&#9733; &#9734; &#9734; &#9734; &#9734;(C)</span></a>
+		          <a th:if="${session.starcliente == 2}" th:text="${session.calificacionCliente}" class="dropdown-item" href="#"><p th:text="${session.calificacionCliente}" ></p> <span class="text-warning">&#9733; &#9733; &#9734; &#9734; &#9734;(C)</span></a>
+		      	  <a th:if="${session.starcliente == 3}" th:text="${session.calificacionCliente}" class="dropdown-item" href="#"><p th:text="${session.calificacionCliente}" ></p> <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;(C)</span></a>
+		          <a th:if="${session.starcliente == 4}" th:text="${session.calificacionCliente}" class="dropdown-item" href="#"><p th:text="${session.calificacionCliente}" ></p> <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;(C)</span></a>
+		          <a th:if="${session.starcliente == 5}" th:text="${session.calificacionCliente}" class="dropdown-item" href="#"><p th:text="${session.calificacionCliente}" ></p> <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;(C)</span></a>
 		      </div>
             </li>
             <li th:if="${session.rol == '3'}" class="nav-item dropdown">

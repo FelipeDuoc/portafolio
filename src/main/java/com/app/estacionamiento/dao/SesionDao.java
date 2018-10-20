@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.stereotype.Component;
 
+import com.app.estacionamiento.domain.Calificacion;
 import com.app.estacionamiento.domain.Credenciales;
 import com.app.estacionamiento.domain.CredencialesResp;
 
@@ -11,4 +12,5 @@ import com.app.estacionamiento.domain.CredencialesResp;
 public interface SesionDao {
 	public CredencialesResp inicioSesion(Credenciales credenciales);
 	public void setDataSource(DataSource ds);
+	public Calificacion getCalification(Integer idPersona);
 }

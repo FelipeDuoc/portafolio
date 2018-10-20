@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Calificar a clientes</title>
+    <title>Calificar clientes</title>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>window.jQuery || document.write('<script src="../vendor/jquery/jquery-slim.min.js"><\/script>')</script>
@@ -31,88 +31,101 @@
 	<div class="container">
 		<hr class="mb-4">
 		<br/>
-		<h1>Calificar a clientes</h1>
+		<h1>Calificar clientes</h1>
 		<hr class="mb-4">
-		<p class="lead">Puedes poner una calificación a los clientes que arrendaron tu estacionamiento</p>
-		
+		<p class="lead">Puedes poner una calificación a los clientes que arrendaron un estacionamiento anteriomente contigo.</p>
+		<div th:if="${nok!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Ups!</strong> Ocurrió un error al calificar, por favor intenta más tarde,
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${ok!=null}" class="alert alert-success alert-dismissible fade show" role="alert">
+		  <strong>Tu calificación ha sido enviada</strong> Esto será de gran ayuda para la comunidad.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
 		<table id="tablaEstacionamientos" class="table">
 			  <thead class="thead-dark">
 			    <tr>
 			      <th scope="col">Patente</th>
-			      <th scope="col">Dirección estacionamiento</th>
+			      <th scope="col">Estacionamiento</th>
 			      <th scope="col">Fecha de salida</th>
-			      <th scope="col">acción</th>
+			      <th scope="col">Acción</th>
 			    </tr>
-		    	<tbody >
-			    	<tr>
-			      		<td>GFTR12</td>
-			      		<td>Pasaje el olivo b, 1345, San bernado</td>
-			      		<td>01-01-2018 10:34:12</td>
-			      		<td><button class="btn btn-info" type="submit">Calificar</button></td>
-			      		
-			      	</tr>
-			      	<tr>
-			      		<td>GFTR12</td>
-			      		<td>Pasaje el olivo b, 1345, San bernado</td>
-			      		<td>01-01-2018 10:34:12</td>
-			      		<td><button class="btn btn-info" type="submit">Calificar</button></td>
-			      	</tr>
-			      	<tr>
-			      		<td>GFTR12</td>
-			      		<td>Pasaje el olivo b, 1345, San bernado</td>
-			      		<td>01-01-2018 10:34:12</td>
-			      		<td><button class="btn btn-info" type="submit">Calificar</button></td>
-			      	</tr>
-			      	<tr>
-			      		<td>GFTR12</td>
-			      		<td>Pasaje el olivo b, 1345, San bernado</td>
-			      		<td>01-01-2018 10:34:12</td>
-			      		<td><button class="btn btn-info" type="submit">Calificar</button></td>
-			      	</tr>
-		      	</tbody>
-<!-- 			  <tbody th:if="${lista.size()>0}" > -->
-<!-- 			    <tr th:each="list : ${lista}"> -->
-<!-- 			      <td th:text="${list.descripcion}"></td> -->
-<!-- 			      <td th:text="${list.tarifa}"></td> -->
-<!-- 			      <td>	 -->
-<!-- 			      		<form method="post" style="display: inline-block;" th:action="@{/actualizaestacionamiento}"> -->
-<!-- 				      		<input type="hidden" name="idArriendo" id="idArriendo" th:value="${idArriendo}" /> -->
-<!-- 				      		<button class="btn btn-info" type="submit">Calificar</button> -->
-<!-- 			      		</form> -->
-<!-- <!-- 			      		<form th:id="${idArriendo}" method="post" style="display: inline-block;" th:action="@{/eliminaestacionamiento/elimina}"> --> 
-<!-- <!-- 				      		<input type="hidden" name="idArriendo" id=idArriendo th:value="${idArriendo}" /> --> 
-<!-- <!-- 				      		<button th:id="${idArriendo}" onclick="dosomething(this.id)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Borrar</button> -->
-<!-- <!-- 			      		</form> --> 
-<!-- <!-- 			      		<a role="button" class="btn btn-info" href="#" th:href="@{'/modificarestacionamiento/mod?id='+${list.idEstacionamiento}}">Editar</a> --> 
-<!-- <!-- 			      		<a role="button" class="btn btn-danger" href="#" th:href="@{'/Eliminaestacionamiento/mod?id='+${list.idEstacionamiento}}">Borrar</a> --> 
-<!-- 			      </td> -->
-<!-- 			    </tr> -->
-<!-- 			  </tbody> -->
-<!-- 			  <tbody th:if="${lista.size()==0}" > -->
-<!-- 			    <tr> -->
-<!-- 			      <td colspan="3" style="text-align: center">No existen estacionamientos registrados.</td> -->
-<!-- 			    </tr> -->
-<!-- 			  </tbody> -->
+			  <tbody th:if="${lista.size()>0}" >
+			    <tr th:each="list : ${lista}">
+			      <td th:text="${list.patenteVehiculo}"></td>
+			      <td th:text="${list.direccionEstacionamiento}"></td>
+			      <td th:text="${list.fechaRealSalida}"></td>
+			      <td>	
+ 				      <button th:id="${list.idArriendo}" onclick="dosomething(this.id)" type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><span class="text-warning">&#9733;</span> Calificar</button>
+			      </td>
+			    </tr>
+			  </tbody>
+			  <tbody th:if="${lista.size()==0}" >
+			    <tr>
+			      <td colspan="3" style="text-align: center">No tienes clientes por calificar :) </td>
+			    </tr>
+			  </tbody>
 			</table>
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 			  <div class="modal-content">
 			    <div class="modal-header">
-			      <h5 class="modal-title" id="exampleModalLabel">Eliminar estacionamiento</h5>
+			      <h5 class="modal-title" id="exampleModalLabel">Calificar</h5>
 			      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			        <span aria-hidden="true">&times;</span>
 			      </button>
 			    </div>
 			    <div class="modal-body">
-			      ¿Esta seguro que desea eliminar el estacionamiento?
+			      Desea calificar este servicio ?
 			    </div>
 			    <div class="modal-footer">
-			      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-			      <button type="button" onclick="callDelete()" class="btn btn-primary" >Aceptar</button>
+<!-- 			      <button type="button" class="btn btn-secondary" data-dismiss="modal" >En otra ocasión</button> -->
+			      <a role="button" class="btn btn-secondary" href="#" th:href="@{/inicio}" >En otra ocasión</a>
+			      <button type="button" class="btn btn-primary" onclick="callCalificacionPaso1()" data-toggle="modal" data-target="#exampleModal2">Aceptar</button>
 			    </div>
 			  </div>
 			</div>
 		</div>
+		<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLabel">Calificación</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <form id="formCalificar" method="post" th:action="@{/calificaarriendopc}" >
+			          <div class="form-group">
+			            <label for="inputState">Puntuación: </label>
+					      <select id="puntaje" name="puntaje" class="form-control">
+					        <option selected value="5">5 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9733;</span></option>
+					        <option value="4">4 <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span></option>
+					        <option value="3">3 <span class="text-warning">&#9733; &#9733; &#9733; &#9734; &#9734;</span></option>
+					        <option value="2">2 <span class="text-warning">&#9733; &#9733; &#9734; &#9734; &#9734;</span></option>
+					        <option value="1">1 <span class="text-warning">&#9733; &#9734; &#9734; &#9734; &#9734;</span></option>
+					      </select>
+			          </div>
+			          <div class="form-group">
+			            <label for="comentario" class="col-form-label">Comentario:</label>
+			            <textarea id="comentario" name="comentario" class="form-control" maxlength="100"></textarea>
+			          </div>
+			          <div class="modal-footer">
+<!-- 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+			        		<button type="button" class="btn btn-primary" onclick="callCalificacionPaso2()">Enviar</button>
+			        		<input type="hidden" id="idArriendo" name="idArriendo" />
+			      		</div>
+			        </form>
+			      </div>
+			      
+			    </div>
+			  </div>
+			</div>
 	</div>
 </body>
 <script th:inline="javascript">
@@ -135,42 +148,47 @@ var lang = {
 		}
 };
 </script>
-<script>
-$(document).ready(function() {
-    $('#tablaEstacionamientos').DataTable( {
-//         dom: 'Bfrtip',
-        responsive : true,
-        lengthChange: false,
-        language: lang,
-        order : [ [ 0, 'desc'] ],
-		searching : true,
-        extend : 'collection'
-//         buttons: [{
-//         	extend: 'pdf',
-//         	text : 'Pdf',
-//         	title: "Mis Estacionamientos",
-//         	exportOptions : {
-//         		columns: [ 0, 1]
-//         	}
-//         },
-//         ]
-    } );
-} );
-</script>
-<script>
-var formsubmit = null;
-
-function dosomething(value){
-	formsubmit = value;
-	console.log("valor del boton: "+value);
-};
-
-function callDelete(){
-	console.log("llamando al valor del formulario: "+formsubmit);
-	$('#exampleModal').modal('hide');
-	$('#'+formsubmit).submit();
-};
-
-
-</script>
+	<script>
+	$(document).ready(function() {
+	    $('#tablaEstacionamientos').DataTable( {
+	//         dom: 'Bfrtip',
+	        responsive : true,
+	        lengthChange: false,
+	        language: lang,
+	        order : [ [ 0, 'desc'] ],
+			searching : true,
+	        extend : 'collection'
+	//         buttons: [{
+	//         	extend: 'pdf',
+	//         	text : 'Pdf',
+	//         	title: "Mis Estacionamientos",
+	//         	exportOptions : {
+	//         		columns: [ 0, 1]
+	//         	}
+	//         },
+	//         ]
+	    } );
+	} );
+	</script>
+	<script>
+	var formsubmit = null;
+	
+	function dosomething(value){
+		formsubmit = value;
+		console.log("valor del boton: "+value);
+		$('input[name=idArriendo]').val(value);
+	};
+	
+	function callCalificacionPaso1(){
+// 		console.log("llamando al valor del formulario: "+formsubmit);
+		$('#exampleModal').modal('hide');
+// 		$('#'+formsubmit).submit();
+	};
+	
+	function callCalificacionPaso2(){
+// 		console.log("llamando al valor del formulario: "+formsubmit);
+// 		$('#exampleModal2').modal('hide');
+ 		$("#formCalificar").submit();
+	};
+	</script>
 </html>
