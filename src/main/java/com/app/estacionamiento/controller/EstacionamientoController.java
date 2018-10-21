@@ -67,7 +67,7 @@ public class EstacionamientoController {
 				model.addAttribute("estacionamiento",est);
 			}
 			
-			return "nuevoestacionamiento";
+			return "nuevoEstacionamiento";
 			
 		}else {
 			return "redirect:/iniciosesion";
@@ -137,9 +137,9 @@ public class EstacionamientoController {
 			idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			int resultado = estacionamientoDao.createParking(estacionamiento, idPersona);
 			if(resultado==1) {
-				return "redirect:/nuevoestacionamiento?OK";
+				return "redirect:/nuevoEstacionamiento?OK";
 			}else {
-				return "redirect:/nuevoestacionamiento?NOK";
+				return "redirect:/nuevoEstacionamiento?NOK";
 			}
 			
 		}else {
