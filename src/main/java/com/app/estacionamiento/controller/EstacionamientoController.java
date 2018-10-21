@@ -56,7 +56,16 @@ public class EstacionamientoController {
 		if(sesion.getAttribute("rol")!=null) {
 			model.addAttribute("ok",ok);
 			model.addAttribute("nok",nok);
-			model.addAttribute("estacionamiento",new EstacionamientoObjBD());
+			
+			Integer tar = estacionamientoDao.selectTipoTarifaCurrent();
+			EstacionamientoObjBD est = new EstacionamientoObjBD();
+			
+			if(tar==0) {
+				model.addAttribute("estacionamiento", est);
+			}else {
+				est.setValorTarifa(tar);
+				model.addAttribute("estacionamiento",est);
+			}
 			
 			return "nuevoestacionamiento";
 			
@@ -80,11 +89,20 @@ public class EstacionamientoController {
 			
 			idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			
+			Integer tar = estacionamientoDao.selectTipoTarifaCurrent();
+			
 			estacionamiento = estacionamientoDao.getParkingById(idPersona, idEstacionamiento);
+			
+			if(tar==0) {
+				model.addAttribute("estacionamiento", estacionamiento);
+			}else {
+				estacionamiento.setValorTarifa(tar);
+				model.addAttribute("estacionamiento",estacionamiento);
+			}
 			
 			model.addAttribute("ok",ok);
 			model.addAttribute("nok",nok);
-			model.addAttribute("estacionamiento",estacionamiento);
+			
 			model.addAttribute("nombre",sesion.getAttribute("nombre").toString());
 			return "actualizaestacionamiento";
 			

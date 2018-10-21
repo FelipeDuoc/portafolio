@@ -256,4 +256,25 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		return lista;
 	}
 
+	@Override
+	public Integer selectTipoTarifaCurrent() {
+		
+		Integer res = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ESTACIONAMIENTO.PROC_SELECT_TIPO_TARIFA_EST");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters =  {
+										new SqlOutParameter("O_TARIFA", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute();
+		
+		return res = (Integer) result.get("O_TARIFA");
+	}
+
 }
