@@ -49,7 +49,7 @@ public class EstacionamientoController {
 	}
 	
 	@GetMapping(value="/nuevoestacionamiento")
-	private String nuevoEstacionamiento(HttpSession sesion, 
+	private String nuevoestacionamiento(HttpSession sesion, 
 										Model model,
 										@RequestParam(name="OK",required=false) String ok,
 										@RequestParam(name="NOK",required=false) String nok) {
