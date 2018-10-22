@@ -199,6 +199,7 @@ public class RegistroDaoImpl implements RegistroDao{
 										new SqlParameter("IN_EMAIL",OracleTypes.VARCHAR),
 										new SqlParameter("IN_ID_USUARIO",OracleTypes.VARCHAR),
 										new SqlParameter("IN_PASSWORD_USUARIO",OracleTypes.VARCHAR),
+										new SqlParameter("IN_ID_ROL",OracleTypes.INTEGER),
 										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)};
 		
 		procedure.setParameters(parameters);
@@ -213,7 +214,8 @@ public class RegistroDaoImpl implements RegistroDao{
 														registro.getTelefono(),
 														registro.getEmail(),
 														idUsuario,
-														registro.getContrasena());
+														registro.getContrasena(),
+														registro.getIdRol());
 		
 		resp = (Integer) result.get("O_RESULT");
 		
