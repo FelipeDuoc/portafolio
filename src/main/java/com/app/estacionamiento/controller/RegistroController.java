@@ -55,14 +55,34 @@ public class RegistroController {
 			
 			
 			if(reg==null) {
-				model.addAttribute("tarjeta", "**** **** **** ****");
+				model.addAttribute("tarjeta", "Sin información");
+				model.addAttribute("cvv","");
+				model.addAttribute("fecha","");
 				model.addAttribute("registro", new Registro());
 			}else {
-				model.addAttribute("tarjeta", "**** **** **** "+reg.getNumeroTarjeta().substring(12).toString());
+				if(reg.getNumeroTarjeta()==null) {
+					model.addAttribute("tarjeta", "Sin información");
+					model.addAttribute("cvv","");
+					model.addAttribute("fecha","");
+				}else {
+					model.addAttribute("tarjeta", "**** **** **** "+reg.getNumeroTarjeta().substring(12).toString());
+					model.addAttribute("cvv","***");
+					model.addAttribute("fecha","**/**");
+				}
+				
+				if(reg.getNumeroCuentaDeposito()==null) {
+					model.addAttribute("numeroCuentaDeposito", "Sin información");
+					model.addAttribute("descripcionBanco","");
+					model.addAttribute("descripcionCuenta","");
+				}else {
+					model.addAttribute("numeroCuentaDeposito", reg.getNumeroCuentaDeposito());
+					model.addAttribute("descripcionBanco",reg.getBancoDescripcion());
+					model.addAttribute("descripcionCuenta",reg.getTipoCuentaDescripcion());
+				}
+				
 				model.addAttribute("registro", reg);
 			}
-			model.addAttribute("cvv","***");
-			model.addAttribute("fecha","**/**");
+			
 			
 			model.addAttribute("nok",nok);
 			model.addAttribute("tnok", tnok);
@@ -96,10 +116,18 @@ public class RegistroController {
 	@PostMapping(value="/registrar/registro")
 	private String RegistroNuevo(Model model, @ModelAttribute("registro") Registro registro ) {
 
-		Boolean checkCard = registroDao.checkCreditCard(registro.getNumeroTarjeta());
-		
-		if(!checkCard) {
-			return "redirect:/registro?nokcard";
+		if(registro.getIdRol()==2 || registro.getIdRol() == 5) {
+			Boolean checkCard = registroDao.checkCreditCard(registro.getNumeroTarjeta());
+			if(!checkCard) {
+				return "redirect:/registro?nokcard";
+			}else {
+				Integer resultado = registroDao.registerAccount(registro);
+				if(resultado ==1) {
+					return "redirect:/registro?ok";
+				}else {
+					return "redirect:/registro?nok";
+				}
+			}
 		}else {
 			Integer resultado = registroDao.registerAccount(registro);
 			if(resultado ==1) {
@@ -108,6 +136,7 @@ public class RegistroController {
 				return "redirect:/registro?nok";
 			}
 		}
+		
 	}
 	
 	@PostMapping(value="/micuenta/editatarjeta")

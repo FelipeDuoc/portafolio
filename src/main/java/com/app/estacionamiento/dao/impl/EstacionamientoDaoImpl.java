@@ -13,11 +13,17 @@ import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Component;
 
 import com.app.estacionamiento.dao.EstacionamientoDao;
+import com.app.estacionamiento.domain.Banco;
+import com.app.estacionamiento.domain.Comuna;
 import com.app.estacionamiento.domain.Estacionamiento;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.domain.TipoCuentaBanco;
+import com.app.estacionamiento.rowmapper.BancoRowMapper;
+import com.app.estacionamiento.rowmapper.ComunaRowMapper;
 import com.app.estacionamiento.rowmapper.EstacionamientoObjBDRowMapper;
 import com.app.estacionamiento.rowmapper.EstacionamientoRowMapper;
 import com.app.estacionamiento.rowmapper.EstacionamientosEnUsoRowMapper;
+import com.app.estacionamiento.rowmapper.TipoCuentaBancoRowMapper;
 
 import oracle.jdbc.OracleTypes;
 
@@ -275,6 +281,45 @@ public class EstacionamientoDaoImpl implements EstacionamientoDao{
 		Map<String, Object>  result = procedure.execute();
 		
 		return res = (Integer) result.get("O_TARIFA");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Banco> getAllBanks() {
+		List<Banco> lista = null;
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_BANCO.PROC_SELECT_BANCO");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new BancoRowMapper()),
+									 new SqlOutParameter("O_RESULT",OracleTypes.INTEGER)};
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute();
+		lista = (List<Banco>) result.get("PCURSOR");
+		
+		return lista;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TipoCuentaBanco> getAllAccountTypes() {
+		List<TipoCuentaBanco> lista = null;
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_TIPO_CUENTA.PROC_SELECT_TIPO_CUENTA");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new TipoCuentaBancoRowMapper()),
+				 					new SqlOutParameter("O_RESULT",OracleTypes.INTEGER)};
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute();
+		lista = (List<TipoCuentaBanco>) result.get("PCURSOR");
+		
+		return lista;
 	}
 
 }
