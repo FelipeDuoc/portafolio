@@ -15,6 +15,7 @@ import com.app.estacionamiento.dao.ArriendoDao;
 import com.app.estacionamiento.dao.EstacionamientoDao;
 import com.app.estacionamiento.domain.Arriendo;
 import com.app.estacionamiento.domain.EstacionamientoObjBD;
+import com.app.estacionamiento.service.NotificationService;
 
 @Controller
 public class IndexController {
@@ -25,17 +26,23 @@ public class IndexController {
 	@Autowired
 	private EstacionamientoDao estacionamientoDao;
 	
+	@Autowired
+	private NotificationService notificacionService;
+	
 	@GetMapping(value="/test")
-	private ModelAndView IndexCon(HttpSession sesion) {
-		ModelAndView myv = new ModelAndView();
+	private String IndexCon(HttpSession sesion) {
+//		ModelAndView myv = new ModelAndView();
+//		
+//		if(sesion.getId().isEmpty()) {
+//			myv.setViewName("iniciosesion");
+//		}else {
+//			myv.setViewName("inicio");
+//		}
+//		
+//		return myv;
+		notificacionService.sendNotification();
 		
-		if(sesion.getId().isEmpty()) {
-			myv.setViewName("iniciosesion");
-		}else {
-			myv.setViewName("inicio");
-		}
-		
-		return myv;
+		return "";
 	}
 	
 	@GetMapping(value="/search")

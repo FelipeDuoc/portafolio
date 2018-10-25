@@ -45,7 +45,10 @@ public class RegistroController {
 							@RequestParam(name="ok",required=false) String ok,
 							@RequestParam(name="tok",required=false) String tok,
 							@RequestParam(name="tnok",required=false) String tnok,
-							@RequestParam(name="nokcard",required=false) String nokcard) {
+							@RequestParam(name="nokcard",required=false) String nokcard,
+							@RequestParam(name="nokc",required=false) String nokc,
+							@RequestParam(name="nokd",required=false) String nokd,
+							@RequestParam(name="nokcd",required=false) String nokcd) {
 		
 		if(sesion.getAttribute("rol")!=null) {
 			int idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
@@ -89,6 +92,9 @@ public class RegistroController {
 			model.addAttribute("tok", tok);
 			model.addAttribute("ok", ok);
 			model.addAttribute("nokcard", nokcard);
+			model.addAttribute("nokc", nokc);
+			model.addAttribute("nokd", nokd);
+			model.addAttribute("nokcd", nokcd);
 			
 			
 			return "micuenta";
@@ -172,11 +178,41 @@ public class RegistroController {
 								@ModelAttribute("registro") Registro registro ) {
 		
 		if(sesion.getAttribute("rol")!=null) {
+			Integer resp = 0;
 			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
 			Integer idUsuario =Integer.parseInt((String) sesion.getAttribute("usuario"));
+			Integer idRol =Integer.parseInt((String) sesion.getAttribute("rol"));
 			
-			Integer resp = registroDao.setMyAccount(idPersona, idUsuario, registro);
-			
+			if(idRol!=registro.getIdRol()) {
+				
+				switch(registro.getIdRol()) {
+					case 2:
+						if(registro.getNumeroTarjeta()!=null) {
+							resp = registroDao.setMyAccount(idPersona, idUsuario, registro);
+						}else {
+							return "redirect:/micuenta?nokc";
+						}
+					break;
+					case 3:
+						if(registro.getNumeroCuentaDeposito()!=null) {
+							resp = registroDao.setMyAccount(idPersona, idUsuario, registro);
+						}else {
+							return "redirect:/micuenta?nokd";
+						}
+					break;
+					case 5:
+						if(registro.getNumeroCuentaDeposito()!=null && registro.getNumeroTarjeta()!=null) {
+							resp = registroDao.setMyAccount(idPersona, idUsuario, registro);
+						}else {
+							return "redirect:/micuenta?nokcd";
+						}
+					break;
+				
+				}
+			}else {
+				resp = registroDao.setMyAccount(idPersona, idUsuario, registro);
+			}
+
 			if(resp.equals(1)) {
 				return "redirect:/micuenta?ok";
 			}else {

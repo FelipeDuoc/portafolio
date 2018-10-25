@@ -76,14 +76,14 @@
 			      		<form method="post" style="display: inline-block;" th:action="@{/envianotificacion}">
 				      		<input type="hidden" name="idEstacionamiento" id="idEstacionamiento" th:value="${list.idEstacionamiento}" />
 				      		<button th:if="${list.descripcionTipoTarifa == 'TRUE' }" class="btn btn-danger" type="submit"><span class="glyphicon">&#x2709;</span> Notificar</button>
-				      		<p><span th:if="${list.descripcionTipoTarifa == 'FALSE' }" class="glyphicon text-success">&#xe089; </span> Usando</p>
+				      		<p th:if="${list.descripcionTipoTarifa == 'FALSE' }" ><span class="glyphicon text-success">&#xe089; </span> Usando</p>
 			      		</form>
 			      </td>
 			    </tr>
 			  </tbody>
 			  <tbody th:if="${lista.size()==0}" >
 			    <tr>
-			      <td colspan="3" style="text-align: center">No existen estacionamientos en uso.</td>
+			      <td colspan="4" style="text-align: center">No existen estacionamientos en uso.</td>
 			    </tr>
 			  </tbody>
 			</table>

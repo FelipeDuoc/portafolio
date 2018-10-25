@@ -29,7 +29,7 @@
         <p class="lead">Administra la información relacionada a tu cuenta.</p>
       </div>
 		<div th:if="${ok!=null}" class="alert alert-success alert-dismissible fade show" role="alert">
-		  <strong>Actualizado! </strong> cuenta actualizada con éxito.
+		  <strong>Actualizado! </strong> cuenta actualizada con éxito. Algunos cambios se verán reflejados cerrando sesión e iniciando sesión nuevamente.
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		    <span aria-hidden="true">&times;</span>
 		  </button>
@@ -54,6 +54,24 @@
 		</div>
 		<div th:if="${nokcard!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
 		  <strong>Tarjeta inválida!</strong> Ocurrió un error al registrar la tarjeta, por favor intenta nuevamente.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${nokc!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Faltan datos!</strong> Para cambiar a Cliente, debes tener datos en Información de Pago.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${nokd!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Faltan datos!</strong> Para cambiar a Dueño, debes tener datos en Información de Depósito.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${nokcd!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Faltan datos!</strong> Para cambiar a Cliente/DUeño, debes tener datos en Información de Pago e Información de depósito. 
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 		    <span aria-hidden="true">&times;</span>
 		  </button>
