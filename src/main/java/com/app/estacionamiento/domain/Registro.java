@@ -1,9 +1,5 @@
 package com.app.estacionamiento.domain;
 
-import org.springframework.jdbc.core.SqlOutParameter;
-
-import oracle.jdbc.OracleTypes;
-
 public class Registro {
 	private Integer idPersona;
 	private String rut;

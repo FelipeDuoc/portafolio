@@ -170,7 +170,7 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		
 		StoredProcedure procedure = new GenericStoredProcedure();
 		procedure.setDataSource(datasource);
-		procedure.setSql("PKG_ARRIENDO.PROC_SELECT_HISTORICO");
+		procedure.setSql("PKG_ARRIENDO.PROC_SELECT_HISTORICO_DUENO");
 		procedure.setFunction(false);
 		
 		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
@@ -234,6 +234,33 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		procedure.setParameters(parameters);
 		procedure.compile();
 		Map<String, Object>  result = procedure.execute(idPersona, idRolCalificador);
+		lista = (List<Arriendo>) result.get("PCURSOR");
+		Integer res = (Integer) result.get("O_RESULT");
+		
+		if(res.equals(1)) {
+			return lista;
+		}else {
+			return lista = null;
+		}
+	}
+
+	@Override
+	public List<Arriendo> HistoricoClienteParking(Integer idPersona) {
+		List<Arriendo> lista = null;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_ARRIENDO.PROC_SELECT_HISTORICO_CLIENTE");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlOutParameter("PCURSOR",OracleTypes.CURSOR, new ArriendoRowMapper()),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)
+									 };
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		Map<String, Object>  result = procedure.execute(idPersona);
 		lista = (List<Arriendo>) result.get("PCURSOR");
 		Integer res = (Integer) result.get("O_RESULT");
 		

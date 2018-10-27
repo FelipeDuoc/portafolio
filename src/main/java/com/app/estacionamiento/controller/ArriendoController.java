@@ -109,6 +109,20 @@ public class ArriendoController {
 		}
 	}
 	
+	@GetMapping("/historicoarriendocliente")
+	public String resumenArriendosCliente(HttpSession sesion, 
+								Model model) {
+		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
+			List<Arriendo> lista = arriendoDao.HistoricoClienteParking(idPersona);
+			model.addAttribute("lista", lista);		
+			return "listahisoticosarriendoscliente";
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+	}
+	
 	
 	@PostMapping("/finalizaarriendo")
 	public String FinalizaArriendoPage( HttpSession sesion, 

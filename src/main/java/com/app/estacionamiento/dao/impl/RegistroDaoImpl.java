@@ -238,4 +238,32 @@ public class RegistroDaoImpl implements RegistroDao{
 		
 	}
 
+	@Override
+	public Integer setTransferCard(Integer idPersona, String numerocuenta, Integer idBanco, Integer idTipoCuenta) {
+		Integer resp = 0;
+		
+		StoredProcedure procedure = new GenericStoredProcedure();
+		procedure.setDataSource(datasource);
+		procedure.setSql("PKG_REGISTRO.PROC_UPDATE_CUENTA_BANCARIA");
+		procedure.setFunction(false);
+		
+		SqlParameter[] parameters = {	new SqlParameter("IN_ID_PERSONA",OracleTypes.INTEGER),
+										new SqlParameter("IN_NUMERO_CUENTA",OracleTypes.VARCHAR),
+										new SqlParameter("IN_ID_BANCO",OracleTypes.INTEGER),
+										new SqlParameter("IN_ID_TIPO_CUENTA",OracleTypes.INTEGER),
+										new SqlOutParameter("O_RESULT", OracleTypes.INTEGER)};
+		
+		procedure.setParameters(parameters);
+		procedure.compile();
+		
+		Map<String, Object>  result = procedure.execute(idPersona,
+														numerocuenta,
+														idBanco,
+														idTipoCuenta);
+		
+		resp = (Integer) result.get("O_RESULT");
+		
+		return resp;
+	}
+
 }

@@ -15,4 +15,5 @@ public interface RegistroDao {
 	public Integer setCreditCard(Integer idPersona, Tarjeta tarjeta);
 	public Integer setMyAccount(Integer idPersona, Integer idUsuario, Registro registro);
 	public Boolean checkCreditCard(String creditCardNumber);
+	public Integer setTransferCard(Integer idPersona, String numerocuenta, Integer idBanco, Integer idTipoCuenta);
 }

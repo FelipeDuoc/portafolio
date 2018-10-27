@@ -48,7 +48,9 @@ public class RegistroController {
 							@RequestParam(name="nokcard",required=false) String nokcard,
 							@RequestParam(name="nokc",required=false) String nokc,
 							@RequestParam(name="nokd",required=false) String nokd,
-							@RequestParam(name="nokcd",required=false) String nokcd) {
+							@RequestParam(name="nokcd",required=false) String nokcd,
+							@RequestParam(name="tdok",required=false) String tdok,
+							@RequestParam(name="tdnok",required=false) String tdnok) {
 		
 		if(sesion.getAttribute("rol")!=null) {
 			int idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
@@ -95,6 +97,8 @@ public class RegistroController {
 			model.addAttribute("nokc", nokc);
 			model.addAttribute("nokd", nokd);
 			model.addAttribute("nokcd", nokcd);
+			model.addAttribute("tdok", tdok);
+			model.addAttribute("tdnok", tdnok);
 			
 			
 			return "micuenta";
@@ -217,6 +221,40 @@ public class RegistroController {
 				return "redirect:/micuenta?ok";
 			}else {
 				return "redirect:/micuenta?nok";
+			}
+		}else{
+			return "redirect:/iniciosesion?nop";
+		}
+	}
+	
+	@GetMapping(value="editarinfodeposito")
+	private String editaInfoDepositoPage(HttpSession sesion){
+		if(sesion.getAttribute("rol")!=null) {
+			return "miinfodeposito";
+		}else {
+			return "redirect:/iniciosesion?nop";
+		}
+		
+	}
+	
+	@PostMapping(value="/micuenta/editatarjetadeposito")
+	private String EditaTarjetaDeposito(HttpSession sesion, 
+								Model model, 
+								@RequestParam(name="numerocuenta",required=true) String numerocuenta,
+								@RequestParam(name="selectBanco",required=true) String SelectBanco,
+								@RequestParam(name="selectTipoCuenta",required=true) String selectTipoCuenta ) {
+		
+		if(sesion.getAttribute("rol")!=null) {
+			Integer idPersona = Integer.parseInt((String) sesion.getAttribute("persona"));
+			Integer idBanco = Integer.parseInt((String) SelectBanco);
+			Integer idTipoCuenta = Integer.parseInt((String) selectTipoCuenta);
+			
+			Integer resp = registroDao.setTransferCard(idPersona, numerocuenta, idBanco, idTipoCuenta);
+			
+			if(resp.equals(1)) {
+				return "redirect:/micuenta?tdok";
+			}else {
+				return "redirect:/micuenta?tdnok";
 			}
 		}else{
 			return "redirect:/iniciosesion?nop";

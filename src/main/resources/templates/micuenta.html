@@ -46,6 +46,18 @@
 		    <span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
+		<div th:if="${tdok!=null}" class="alert alert-success alert-dismissible fade show" role="alert">
+		  <strong>Cuenta para depósitos actualizado! </strong> cuenta actualizada con éxito.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div th:if="${tdnok!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+		  <strong>Ups!</strong> Ocurrió un error al actualizar la información de depósito.
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
 		<div th:if="${tnok!=null}" class="alert alert-danger alert-dismissible fade show" role="alert">
 		  <strong>Ups!</strong> Ocurrió un error al actualizar el medio de pago, por favor intenta más tarde,
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
