@@ -67,7 +67,7 @@ public class EstacionamientoController {
 				model.addAttribute("estacionamiento",est);
 			}
 			
-			return "nuevoestacionamiento";
+			return "nuevoestacionamientopage";
 			
 		}else {
 			return "redirect:/iniciosesion";
