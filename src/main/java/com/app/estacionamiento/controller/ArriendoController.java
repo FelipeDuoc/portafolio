@@ -73,22 +73,31 @@ public class ArriendoController {
 			arr.setIdVehiculo(Integer.parseInt(idVehiculo));
 			arr.setIdEstacionamiento(Integer.parseInt(idEstacionamiento));
 			
-			Arriendo arrRes = arriendoDao.newArriendo(arr);
+			//SALDO DE LA TARJETA, VALIDAR--
+			Integer rescredits = arriendoDao.checkCredits(arr.getIdPersona(), arr.getIdEstacionamiento(), arr.getFechaDesde(), arr.getFechaHasta());
+			//CUANTO SALE EL ARRIENDO Y LA TARJETA
 			
-			if(arrRes!=null) {
-				model.addAttribute("arriendoOK", arrRes);
-				model.addAttribute("fechaDesde",arrRes.getFechaDesde());
-				model.addAttribute("fechaHasta",arrRes.getFechaHasta());
-				model.addAttribute("totalArriendo", arrRes.getTotalArriendo());
-				model.addAttribute("vehiculo", arrRes.getPatenteVehiculo());
-				model.addAttribute("nombreDueno", arrRes.getNombreDuenoEstacionamiento());
-				model.addAttribute("telefonoDueno", arrRes.getTelefonoDueno());
-				model.addAttribute("descripcionEstacionamiento", arrRes.getDireccionEstacionamiento());
-				return "resumenarriendo";
-			}else {
+			if(rescredits==1) {
+				Arriendo arrRes = arriendoDao.newArriendo(arr);
 				
-				return "redirect:/inicio?anok";
+				if(arrRes!=null) {
+					model.addAttribute("arriendoOK", arrRes);
+					model.addAttribute("fechaDesde",arrRes.getFechaDesde());
+					model.addAttribute("fechaHasta",arrRes.getFechaHasta());
+					model.addAttribute("totalArriendo", arrRes.getTotalArriendo());
+					model.addAttribute("vehiculo", arrRes.getPatenteVehiculo());
+					model.addAttribute("nombreDueno", arrRes.getNombreDuenoEstacionamiento());
+					model.addAttribute("telefonoDueno", arrRes.getTelefonoDueno());
+					model.addAttribute("descripcionEstacionamiento", arrRes.getDireccionEstacionamiento());
+					return "resumenarriendo";
+				}else {
+					
+					return "redirect:/inicio?anok";
+				}
+			}else {
+				return "redirect:/inicio?sinsaldo";
 			}
+			
 		}else {
 			return "redirect:/iniciosesion?nop";
 		}

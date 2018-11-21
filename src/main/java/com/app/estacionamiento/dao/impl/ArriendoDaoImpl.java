@@ -11,9 +11,12 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.object.GenericStoredProcedure;
 import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.app.estacionamiento.dao.ArriendoDao;
 import com.app.estacionamiento.domain.Arriendo;
+import com.app.estacionamiento.domain.webservice.Response;
 import com.app.estacionamiento.rowmapper.ArriendoPendientesRowMapper;
 import com.app.estacionamiento.rowmapper.ArriendoRowMapper;
 
@@ -269,6 +272,23 @@ public class ArriendoDaoImpl implements ArriendoDao {
 		}else {
 			return lista = null;
 		}
+	}
+
+	@Override
+	public Integer checkCredits(Integer idPersona, Integer idEstacionamiento, String fechaDesde, String fechaHasta) {
+		Integer result;
+//		fechaDesde = fechaDesde.replace(" ", "%20");
+//		fechaHasta = fechaHasta.replace(" ", "%20");
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString("https://wscheckcredit.herokuapp.com/checkcredits")
+				   .queryParam("idPersona", idPersona)
+				   .queryParam("idEstacionamiento", idEstacionamiento)
+				   .queryParam("fechaDesde", fechaDesde)
+				   .queryParam("fechaHasta", fechaHasta);
+
+		RestTemplate restTemplate = new RestTemplate();
+		result = restTemplate.getForObject(builder.toUriString(), Integer.class);
+		
+		return result;
 	}
 
 }

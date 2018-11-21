@@ -66,7 +66,8 @@ public class IndexController {
 									Model model,
 									@RequestParam(value="anok", required=false) String anok,
 									@RequestParam(value="cnok", required=false) String cnok,
-									@RequestParam(value="cok", required=false) String cok) {
+									@RequestParam(value="cok", required=false) String cok,
+									@RequestParam(value="sinsaldo", required=false) String sinsaldo) {
 		if(sesion.getAttribute("rol")!=null) {
 			
 			Integer idPersona =Integer.parseInt((String) sesion.getAttribute("persona"));
@@ -88,6 +89,7 @@ public class IndexController {
 					model.addAttribute("anok", anok);
 					model.addAttribute("cok", cok);
 					model.addAttribute("cnok", cnok);
+					model.addAttribute("sinsaldo", sinsaldo);
 					return "inicio";
 				}
 			}

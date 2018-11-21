@@ -18,5 +18,6 @@ public interface ArriendoDao {
 	public Integer newCalification(Integer idArriendo, Integer idPersona, Integer puntaje, String comentario);
 	public List<Arriendo> PendientesCalificacion(Integer idPersona, String idRolCalificador);
 	public List<Arriendo> HistoricoClienteParking(Integer idPersona);
+	public Integer checkCredits(Integer idPersona, Integer idEstacionamiento, String fechaDesde, String fechaHasta);
 
 }
