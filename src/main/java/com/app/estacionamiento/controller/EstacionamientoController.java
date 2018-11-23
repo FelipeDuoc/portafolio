@@ -94,8 +94,10 @@ public class EstacionamientoController {
 			estacionamiento = estacionamientoDao.getParkingById(idPersona, idEstacionamiento);
 			
 			if(tar==0) {
+				model.addAttribute("tipoTarifa", "dinamica");
 				model.addAttribute("estacionamiento", estacionamiento);
 			}else {
+				model.addAttribute("tipoTarifa", "fija");
 				estacionamiento.setValorTarifa(tar);
 				model.addAttribute("estacionamiento",estacionamiento);
 			}

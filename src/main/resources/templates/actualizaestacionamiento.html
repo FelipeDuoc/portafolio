@@ -52,8 +52,14 @@
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="cc-name">Tarifa $</label>
-                <input th:if="*{valorTarifa>0}" th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name" placeholder="Ej: 30" disabled>
-                <input th:if="*{valorTarifa==0}" th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name2" placeholder="Ej: 30" required>
+                <div th:if="${tipoTarifa=='dinamica'}">
+                	<input th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name2" placeholder="Ej: 30" required>
+                </div>
+                <div th:if="${tipoTarifa=='fija'}">
+                	<input th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name2" placeholder="Ej: 30" disabled>
+                </div>
+<!--                 <input th:if="*{valorTarifa>0}" th:field="*{valorTarifa}" type="text" class="form-control" id="cc-name" placeholder="Ej: 30" disabled> -->
+                
                 <small class="text-muted">La tarifa es considerada en CLP por minuto</small>
                 <div class="invalid-feedback">
                   * El campo de tarifa es requerido
